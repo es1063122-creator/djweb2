@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>동진토건(주)</title>
+
+    <!-- Fonts -->
+    <link rel="stylesheet" as="style" crossorigin 
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #004080;
+            --dark: #111111;
+            --gray: #555555;
+            --light: #f8f9fa;
+            --white: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Pretendard', sans-serif; color: var(--dark); line-height: 1.6; overflow-x: hidden; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; padding-left: 0; }
+        .en { font-family: 'Montserrat', sans-serif; }
+
+        section { scroll-margin-top: 80px; }
+
+        /* HEADER */
+        header {
+            position: fixed;
+            width: 100%; 
+            top: 0; 
+            z-index: 999;
+            padding: 15px 50px;
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(5px);
+            transition: 0.3s;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        header.scrolled {
+            background: rgba(255,255,255,0.98);
+            padding: 10px 50px;
+        }
+
+        .logo-img {
+            width: 160px;
+            cursor: pointer;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 32px;
+            margin-left: -40px;
+        }
+        nav a {
+            font-size: 1.05rem;
+            font-weight: 700;
+            position: relative;
+        }
+        nav a:hover { color: var(--primary); }
+        nav a::after {
+            content: ''; position: absolute; bottom: -5px; left: 0;
+            width: 0%; height: 3px; background: var(--primary);
+            transition: 0.3s;
+        }
+        nav a:hover::after { width: 100%; }
+
+        /* MOBILE BUTTON */
+        .mobile-menu-btn {
+            display: none; 
+            flex-direction: column; 
+            gap: 6px; 
+            cursor: pointer;
+        }
+        .bar {
+            width: 30px; 
+            height: 3px; 
+            background: var(--dark); 
+            border-radius: 3px;
+        }
+
+        /* HERO SECTION */
+        section.hero {
+            height: 100vh; width: 100%;
+            position: relative;
+            display: flex; justify-content: center; align-items: center;
+            text-align: center; padding: 20px;
+            overflow: hidden;
+            background: #000;
+        }
+
+        #hero-static-image {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            opacity: 1;
+            transition: opacity 1.2s ease;
+        }
+        #hero-static-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        #hero-3d-container {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+        #dj-hero-canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 5;
+            background: rgba(255,255,255,0.7);
+            padding: 50px 70px;
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+            width: 90%; 
+            max-width: 900px;
+        }
+        .hero h1 { font-size: 4rem; font-weight: 800; color: var(--primary); }
+        .hero p { font-size: 1.3rem; color: var(--gray); }
+
+        /* SECTION WRAPPER */
+        .section { padding: 120px 5%; }
+        .section-title { font-size: 2.5rem; font-weight: 700; text-align:center; margin-bottom:15px; }
+        .section-sub { text-align:center; margin-bottom:50px; color:var(--gray); }
+
+        /* COMPANY COUNT-UP GRID */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            max-width: 1000px;
+            margin: 50px auto 0;
+            text-align: center;
+        }
+
+        .stat-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-num {
+            font-size: 3.2rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .stat-text {
+            font-size: 3.2rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--gray);
+        }
+        /* BUSINESS */
+        .biz-grid {
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+            gap:30px;
+        }
+        .biz-card {
+            background:var(--light);
+            padding:40px 30px;
+            border-radius:16px;
+            cursor:pointer;
+            transition:0.25s;
+            position: relative;
+            overflow: hidden;
+        }
+        .biz-card::after{
+            content:"";
+            position:absolute;
+            inset:0;
+            background:linear-gradient(135deg,rgba(255,255,255,0.0),rgba(0,64,128,0.08));
+            opacity:0;
+            transition:0.25s;
+        }
+        .biz-card:hover::after{
+            opacity:1;
+        }
+        .biz-card:hover {
+            background:#fff;
+            box-shadow:0 14px 30px rgba(0,0,0,0.12);
+            transform: translateY(-4px);
+        }
+        .biz-icon { font-size:3rem; margin-bottom:20px; }
+        .biz-card h3{ font-size:1.3rem; margin-bottom:8px; }
+        .biz-card p{ color:var(--gray); font-size:0.95rem; }
+
+        /* FEATURED PROJECTS */
+        .projects { background:#111; color:#fff; padding-bottom:80px; }
+        .project-container {
+            display:grid;
+            grid-template-columns:repeat(2,1fr);
+            gap:30px;
+        }
+        .project-item {
+            position:relative;
+            height:350px;
+            overflow:hidden;
+            border-radius:12px;
+            cursor:pointer;
+        }
+        .project-item img {
+            width:100%;
+            height:100%;
+            object-fit:cover;
+            transition:0.4s;
+        }
+        .project-item:hover img { transform:scale(1.05); }
+
+        .project-info {
+            position:absolute; bottom:0; width:100%; padding:25px;
+            background:linear-gradient(to top,rgba(0,0,0,0.75),transparent);
+        }
+        .pj-title { font-size:1.4rem; font-weight:700; color:white; }
+
+        /* LOCATION */
+        .location-grid {
+            display:grid;
+            grid-template-columns:1fr 1.5fr;
+            gap:50px;
+        }
+
+        /* PARTNERS */
+        .partners { padding:60px 0; background:#fff; }
+        .partner-track {
+            display:inline-block;
+            animation: slide 20s linear infinite;
+            white-space:nowrap;
+        }
+        .partner-logo {
+            margin:0 40px;
+            font-weight:800;
+            font-size:1.4rem;
+            color:#999;
+        }
+        @keyframes slide {
+            from {transform:translateX(0);}
+            to {transform:translateX(-50%);}
+        }
+
+        /* FOOTER */
+        footer {
+            background:#1a1a1a;
+            color:#aaa;
+            padding:80px 5%;
+        }
+        .footer-top {
+            display:flex;
+            justify-content:space-between;
+            flex-wrap:wrap;
+            gap:40px;
+        }
+
+        /* BUSINESS MODAL */
+        .modal-overlay{
+            position:fixed;
+            inset:0;
+            background:rgba(0,0,0,0.55);
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            opacity:0;
+            pointer-events:none;
+            transition:opacity .25s ease;
+            z-index:1000;
+        }
+        .modal-overlay.show{
+            opacity:1;
+            pointer-events:auto;
+        }
+        .modal{
+            background:#ffffff;
+            width:90%;
+            max-width:760px;
+            max-height:80vh;
+            border-radius:20px;
+            padding:28px 30px 26px;
+            box-shadow:0 18px 45px rgba(0,0,0,0.18);
+            overflow-y:auto;
+        }
+        .modal-header{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:16px;
+        }
+        .modal-title{
+            font-size:1.4rem;
+            font-weight:700;
+            color:var(--primary);
+        }
+        .modal-close{
+            border:none;
+            background:transparent;
+            font-size:1.6rem;
+            cursor:pointer;
+            color:#666;
+        }
+        .modal-body{
+            font-size:0.98rem;
+            color:#333;
+        }
+        .modal-body h4{
+            margin-top:16px;
+            margin-bottom:6px;
+            font-size:1.05rem;
+            font-weight:700;
+            color:#222;
+        }
+        .modal-body p{
+            margin-bottom:8px;
+        }
+        .modal-body ul{
+            list-style:disc;
+            padding-left:20px;
+            margin-bottom:8px;
+        }
+        .modal-body li{
+            margin-bottom:4px;
+        }
+
+        .modal-subtitle{
+            margin-bottom:10px;
+            color:#666;
+            font-size:0.95rem;
+        }
+
+        /* MOBILE */
+        @media(max-width:768px){
+            .mobile-menu-btn{ display:flex; }
+            nav {
+                position:fixed; right:-100%; top:0;
+                width:70%; height:100vh;
+                background:#fff; padding-top:100px;
+                transition:0.3s;
+            }
+            nav.active{ right:0; }
+            nav ul{
+                flex-direction:column;
+                gap:30px;
+                margin-left:0;
+            }
+
+            .stats-grid { grid-template-columns:repeat(2,1fr); }
+            .project-container { grid-template-columns:1fr; }
+            .project-item { height:300px; }
+            .hero h1{ font-size:2.5rem; }
+            .modal{
+                max-height:85vh;
+                padding:22px 18px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header id="header">
+    <img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/logo.png"
+         class="logo-img" onclick="location.href='index.html'">
+
+    <div class="mobile-menu-btn" onclick="toggleMenu()">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+    </div>
+
+    <nav id="navbar">
+        <ul>
+            <li><a href="#company" onclick="toggleMenu()">회사소개</a></li>
+            <li><a href="#business" onclick="toggleMenu()">사업영역</a></li>
+            <li><a href="projects.html" onclick="toggleMenu()">주요실적</a></li>
+            <li><a href="soft-ground.html" onclick="toggleMenu()">연약지반공법</a></li>
+            <li><a href="#location" onclick="toggleMenu()">오시는길</a></li>
+            <li><a href="#partners" onclick="toggleMenu()">협력사</a></li>
+        </ul>
+    </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+    <div id="hero-static-image">
+        <img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/main.png" alt="동진토건 메인 이미지">
+    </div>
+
+    <div id="hero-3d-container">
+        <canvas id="dj-hero-canvas"></canvas>
+    </div>
+
+    <div class="hero-content">
+        <h1>기본을 짓다, 미래를 잇다</h1>
+        <p>
+            6대 전문 면허와 독보적 기술력으로 기본을 짓다.<br>
+            동진토건이 건설의 새로운 기준을 만듭니다.
+        </p>
+    </div>
+</section>
+<!-- COMPANY -->
+<section class="section" id="company">
+    <h2 class="section-title en">Company</h2>
+    <p class="section-sub">2010년 설립 이후, 원칙과 품질을 지키는 건설기업</p>
+
+    <div class="stats-grid">
+        <div class="stat-box">
+            <div class="stat-num" data-count="2010">0</div>
+            <div class="stat-label">ESTABLISHED</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-num" data-count="224">0</div>
+            <div class="stat-label">REVENUE (억)</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-text">A</div>
+            <div class="stat-label">CASH FLOW</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-num" data-count="6">0</div>
+            <div class="stat-label">LICENSES</div>
+        </div>
+    </div>
+</section>
+
+<!-- BUSINESS -->
+<section class="section" id="business">
+    <h2 class="section-title en">Business Area</h2>
+    <p class="section-sub">전문 건설 면허 기반의 종합 시공 솔루션</p>
+
+    <div class="biz-grid">
+        <div class="biz-card" data-biz="soft">
+            <span class="biz-icon">🌏</span>
+            <h3>연약지반 안정화공법</h3>
+            <p>MGREEN-G 친환경 고화재를 이용한 연약지반 개량 솔루션</p>
+        </div>
+
+        <div class="biz-card" data-biz="ground">
+            <span class="biz-icon">🚜</span>
+            <h3>지반조성·포장 및 기초공사</h3>
+            <p>대규모 택지조성부터 산업단지 기반시설까지 인프라 구축</p>
+        </div>
+
+        <div class="biz-card" data-biz="rc">
+            <span class="biz-icon">🏗️</span>
+            <h3>철근·콘크리트공사</h3>
+            <p>구조물 골조 및 RC공사, 각종 구조물 시공</p>
+        </div>
+
+        <div class="biz-card" data-biz="subcivil">
+            <span class="biz-icon">🛣️</span>
+            <h3>부대토목공사</h3>
+            <p>단지 내 도로·보도·조경·배수 등 외부 토목 마감</p>
+        </div>
+    </div>
+</section>
+
+<!-- FEATURED PROJECTS -->
+<section class="projects section" id="projects">
+    <h2 class="section-title en" style="color:#fff;">Featured Projects</h2>
+    <p class="section-sub" style="color:#999;">동진토건의 대표 시공 실적</p>
+
+    <div class="project-container">
+
+        <div class="project-item" onclick="location.href='projects.html'">
+            <img loading="lazy" 
+                 src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%EB%A7%88%ED%8F%AC%EB%A1%9C3-1%EC%A7%80%EA%B5%AC%20%EC%A3%BC%EC%83%81%EB%B3%B5%ED%95%A9%20%EC%8B%A0%EC%B6%95.jpg" alt="마포로3-1지구 주상복합 신축">
+            <div class="project-info">
+                <div class="pj-title">마포로3-1지구 주상복합 신축</div>
+            </div>
+        </div>
+
+        <div class="project-item" onclick="location.href='projects.html'">
+            <img loading="lazy" 
+                 src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%EC%9A%B8%EC%82%B0%20%EC%9A%B0%EC%A0%95%EB%8F%99%20APT%20%EA%B8%B0%EB%B0%98%EC%8B%9C%EC%84%A4%20%ED%86%A0%EB%AA%A9%EA%B3%B5%EC%82%AC.jpg" alt="울산 우정동 APT 기반시설">
+            <div class="project-info">
+                <div class="pj-title">울산 우정동 APT 기반시설</div>
+            </div>
+        </div>
+
+        <div class="project-item" onclick="location.href='projects.html'">
+            <img loading="lazy"
+                 src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%EA%B3%A0%EB%8D%95%20%EC%95%84%EC%9D%B4%ED%8C%8C%ED%81%AC%20%EB%94%94%EC%96%B4%EB%B0%98.jpg" alt="고덕 아이파크 디어반">
+            <div class="project-info">
+                <div class="pj-title">고덕 아이파크 디어반</div>
+            </div>
+        </div>
+
+        <div class="project-item" onclick="location.href='projects.html'">
+            <img loading="lazy" 
+                 src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%EA%B5%B0%EC%82%B0%20%ED%98%B8%EC%88%98%EA%B3%B5%EC%9B%90%20IPARK%20%EB%B6%80%EB%8C%80%ED%86%A0%EB%AA%A9%EA%B3%B5%EC%82%AC.jpg" alt="군산 호수공원 IPARK">
+            <div class="project-info">
+                <div class="pj-title">군산 호수공원 IPARK</div>
+            </div>
+        </div>
+
+    </div>
+
+    <div style="text-align:center; margin-top:40px;">
+        <a href="projects.html"
+           style="padding:14px 34px; background:#fff; color:#111; border-radius:8px; font-weight:700;">
+           전체 실적 보기 →
+        </a>
+    </div>
+</section>
+
+<!-- LOCATION -->
+<section class="section" id="location">
+    <h2 class="section-title en">Location</h2>
+    <p class="section-sub">경기도 하남시 미사강변중앙로 210, 1006호</p>
+
+    <div class="location-grid">
+        <div>
+            <p><strong>주소</strong><br>경기도 하남시 미사강변중앙로 210, 1006호</p>
+            <p><strong>Tel</strong> 031-792-8361</p>
+            <p><strong>Email</strong> dongjin033@naver.com</p>
+        </div>
+
+        <div>
+            <iframe
+                src="https://maps.google.com/maps?q=경기도%20하남시%20미사강변중앙로%20210&z=16&output=embed"
+                style="width:100%; height:400px; border-radius:12px;">
+            </iframe>
+        </div>
+    </div>
+</section>
+
+<!-- PARTNERS -->
+<section class="partners" id="partners">
+    <div class="partner-track">
+        <span class="partner-logo">HDC 현대산업개발</span>
+        <span class="partner-logo">HL D&I 한라</span>
+        <span class="partner-logo">POSCO E&C</span>
+        <span class="partner-logo">LH 한국토지주택공사</span>
+        <span class="partner-logo">금호건설</span>
+        <span class="partner-logo">대한전문건설협회</span>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-top">
+        <div>
+            <h3 style="color:white; font-size:1.8rem;">동진토건(주)</h3>
+            <p>기본과 원칙을 준수하는 기업</p>
+            <p>대표이사: 홍진국, 이성대</p>
+        </div>
+
+        <div>
+            <p>주소: 경기도 하남시 미사강변중앙로 210, 1006호</p>
+            <p>Tel: 031-792-8361 | Fax: 031-791-2644</p>
+            <p>Email: dongjin033@naver.com</p>
+        </div>
+    </div>
+
+    <p style="text-align:center; padding-top:20px;">© 2010-2025 DONGJIN CONSTRUCTION Co., Ltd.</p>
+</footer>
+
+<!-- BUSINESS MODAL -->
+<div id="biz-modal" class="modal-overlay">
+    <div class="modal">
+        <div class="modal-header">
+            <div class="modal-title" id="biz-modal-title"></div>
+            <button class="modal-close" id="biz-modal-close" aria-label="닫기">×</button>
+        </div>
+        <div class="modal-body" id="biz-modal-body"></div>
+    </div>
+</div>
+
+<!-- HEADER SCROLL & MENU -->
+<script>
+    window.addEventListener("scroll", () => {
+        const header = document.getElementById("header");
+        if (window.scrollY > 50) header.classList.add("scrolled");
+        else header.classList.remove("scrolled");
+    });
+
+    function toggleMenu(){
+        document.getElementById("navbar").classList.toggle("active");
+    }
+</script>
+
+<!-- COUNT UP ANIMATION -->
+<script>
+function animateCountUp(el) {
+    const target = +el.getAttribute("data-count");
+    if (isNaN(target)) return;
+
+    const duration = 1500;
+    const startTime = performance.now();
+
+    function update(now) {
+        const progress = Math.min((now - startTime) / duration, 1);
+        el.textContent = Math.floor(progress * target);
+        if (progress < 1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+}
+
+let countStarted = false;
+
+function checkCountStart() {
+    const companySection = document.getElementById("company");
+    const rect = companySection.getBoundingClientRect();
+
+    if (!countStarted && rect.top < window.innerHeight * 0.8) {
+        countStarted = true;
+        document.querySelectorAll(".stat-num").forEach(animateCountUp);
+    }
+}
+
+window.addEventListener("scroll", checkCountStart);
+window.addEventListener("load", checkCountStart);
+</script>
+
+<!-- BUSINESS MODAL SCRIPT -->
+<script>
+const bizContents = {
+    soft: {
+        title: "연약지반 안정화공법 (MGREEN-G)",
+        body: `
+            <p class="modal-subtitle">친환경 고화재 MGREEN-G를 활용해 연약지반의 지지력과 안정성을 높이는 동진토건의 핵심 전문 공법입니다.</p>
+            <h4>개요</h4>
+            <p>MGREEN-G 공법은 자주식 토질개량기를 이용하여 원지반 토사와 친환경 고화재를 현장에서 직접 혼합·교반하여 강도를 증진시키는 연약지반 개량 공법입니다. 수화작용과 양이온 교환 등의 화학적 작용을 통해 지지력을 확보하고, 침하를 억제합니다.</p>
+            <h4>특징</h4>
+            <ul>
+                <li>원지반 토사를 그대로 활용하여 토사 반출과 토취장 확보 부담을 최소화</li>
+                <li>초기 강도와 장기 강도가 모두 우수하여 구조물 기초에 적합</li>
+                <li>유기질토·고함수비 토사 등 다양한 연약지반에 적용 가능</li>
+                <li>골재 치환 공법 대비 경제성과 시공성 우수</li>
+                <li>중금속을 포함하지 않는 친환경 고화재 사용</li>
+            </ul>
+            <h4>적용 분야</h4>
+            <ul>
+                <li>주동부 치환 및 구조물 기초부 개량</li>
+                <li>도로 노상·노체 및 성토부 안정화</li>
+                <li>상·하수도 관로 및 각종 매설물 기초 보강</li>
+                <li>준설토 및 매립지 개량</li>
+            </ul>
+        `
+    },
+    ground: {
+        title: "지반조성·포장 및 기초공사",
+        body: `
+            <p class="modal-subtitle">대규모 택지조성부터 산업단지 기반시설까지, 현장의 시작을 책임지는 인프라 토공 전문 영역입니다.</p>
+            <h4>주요 업무</h4>
+            <ul>
+                <li>택지·산업단지·물류단지 등 대규모 부지조성공사</li>
+                <li>부지 정지, 절·성토 및 사면 안정화</li>
+                <li>단지 내 및 진입도로 노상·노체 형성 및 포장공사</li>
+                <li>각종 구조물 기초부 토공 및 지반 정비</li>
+            </ul>
+            <h4>강점</h4>
+            <ul>
+                <li>다양한 지반 조건에 따른 최적 공법 및 장비 적용 경험</li>
+                <li>현장 상황에 맞는 흙막이·배수·가시설 계획 수립 능력</li>
+                <li>경제성과 안전성을 동시에 고려한 시공관리</li>
+            </ul>
+        `
+    },
+    rc: {
+        title: "철근·콘크리트공사",
+        body: `
+            <p class="modal-subtitle">안전성과 내구성이 요구되는 구조물 골조를 책임지는 철근·콘크리트 시공 분야입니다.</p>
+            <h4>주요 업무</h4>
+            <ul>
+                <li>아파트 단지 및 공동주택의 기초·골조 공사</li>
+                <li>옹벽·박스·교량 등 토목 구조물 콘크리트 타설</li>
+                <li>상·하수도 및 각종 지하 구조물 RC 공사</li>
+            </ul>
+            <h4>특징</h4>
+            <ul>
+                <li>설계 기준을 만족하는 철근 배근 및 거푸집 공정관리</li>
+                <li>균일한 콘크리트 품질 확보를 위한 타설·양생 관리</li>
+                <li>공기·품질·안전을 동시에 고려한 시공 노하우</li>
+            </ul>
+        `
+    },
+    subcivil: {
+        title: "부대토목공사",
+        body: `
+            <p class="modal-subtitle">완성도 높은 단지와 시설 외부 환경을 만드는 마감·부대 토목공사 영역입니다.</p>
+            <h4>주요 업무</h4>
+            <ul>
+                <li>단지 내 도로 및 보도블록 포장</li>
+                <li>배수로·측구·맨홀 등 배수시설 공사</li>
+                <li>조경부지 성토·정지 및 잔디·수목 식재를 위한 기초 정비</li>
+                <li>각종 담장·옹벽·계단 등 외부 부대 구조물 시공</li>
+            </ul>
+            <h4>강점</h4>
+            <ul>
+                <li>사용자의 동선을 고려한 단지 기능성·안전성 확보</li>
+                <li>건축·조경과 조화를 이루는 외부 공간 구현</li>
+            </ul>
+        `
+    }
+};
+
+(function initBizModal(){
+    const modal = document.getElementById("biz-modal");
+    const modalTitle = document.getElementById("biz-modal-title");
+    const modalBody = document.getElementById("biz-modal-body");
+    const modalClose = document.getElementById("biz-modal-close");
+
+    function openModal(key){
+        const data = bizContents[key];
+        if(!data) return;
+        modalTitle.textContent = data.title;
+        modalBody.innerHTML = data.body;
+        modal.classList.add("show");
+        document.body.style.overflow = "hidden";
+    }
+
+    function closeModal(){
+        modal.classList.remove("show");
+        document.body.style.overflow = "";
+    }
+
+    document.querySelectorAll(".biz-card").forEach(card=>{
+        card.addEventListener("click", ()=>{
+            const key = card.dataset.biz;
+            openModal(key);
+        });
+    });
+
+    modalClose.addEventListener("click", closeModal);
+    modal.addEventListener("click", (e)=>{
+        if(e.target === modal) closeModal();
+    });
+
+    window.addEventListener("keydown", (e)=>{
+        if(e.key === "Escape") closeModal();
+    });
+})();
+</script>
+
+<!-- Three.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
+
+<!-- 풀옵션 3D HERO BACKGROUND -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const container = document.getElementById("hero-3d-container");
+    const canvas = document.getElementById("dj-hero-canvas");
+    const staticImage = document.getElementById("hero-static-image");
+
+    if (!container || !canvas || !window.THREE) return;
+
+    const mouse = { x: 0, y: 0 };
+    window.addEventListener("mousemove", (e) => {
+        mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+    });
+
+    /* SCENE & CAMERA */
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.Fog(0x0a0e1a, 10, 80);
+
+    const camera = new THREE.PerspectiveCamera(
+        70,
+        container.clientWidth / container.clientHeight,
+        0.1,
+        1000
+    );
+    camera.position.set(0, 5, 15);
+
+    const renderer = new THREE.WebGLRenderer({
+        canvas,
+        antialias: true,
+        alpha: true,
+    });
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setClearColor(0x0a0e1a, 1);
+
+    /* PARTICLES (OPTION) */
+    const particleCount = 3000;
+    const particleGeometry = new THREE.BufferGeometry();
+    const positions = new Float32Array(particleCount * 3);
+    const colors = new Float32Array(particleCount * 3);
+    const sizes = new Float32Array(particleCount);
+    const velocities = [];
+
+    for (let i = 0; i < particleCount; i++) {
+        const px = (Math.random() - 0.5) * 120;
+        const py = Math.random() * 60;
+        const pz = (Math.random() - 0.5) * 120;
+
+        positions[i * 3]     = px;
+        positions[i * 3 + 1] = py;
+        positions[i * 3 + 2] = pz;
+
+        const colorChoice = Math.random();
+        if (colorChoice < 0.5) {
+            colors[i * 3] = 0; colors[i * 3 + 1] = 1; colors[i * 3 + 2] = 1;
+        } else if (colorChoice < 0.8) {
+            colors[i * 3] = 0; colors[i * 3 + 1] = 1; colors[i * 3 + 2] = 0.5;
+        } else {
+            colors[i * 3] = 0.5; colors[i * 3 + 1] = 0.5; colors[i * 3 + 2] = 1;
+        }
+
+        sizes[i] = Math.random() * 0.5 + 0.2;
+
+        velocities.push({
+            x: (Math.random() - 0.5) * 0.03,
+            y: Math.random() * 0.03 + 0.01,
+            z: (Math.random() - 0.5) * 0.03,
+        });
+    }
+
+    particleGeometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+    particleGeometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+    particleGeometry.setAttribute("size", new THREE.BufferAttribute(sizes, 1));
+
+    const particleMaterial = new THREE.PointsMaterial({
+        size: 0.3,
+        transparent: true,
+        opacity: 0.9,
+        vertexColors: true,
+        blending: THREE.AdditiveBlending,
+        sizeAttenuation: true,
+    });
+
+    const particles = new THREE.Points(particleGeometry, particleMaterial);
+    scene.add(particles);
+
+    /* 빌딩 라인 */
+    const buildings = [];
+    const buildingCount = 12;
+
+    for (let i = 0; i < buildingCount; i++) {
+        const width = Math.random() * 2.5 + 1;
+        const height = Math.random() * 18 + 6;
+        const depth = Math.random() * 2.5 + 1;
+
+        const geo = new THREE.BoxGeometry(width, height, depth);
+        const edges = new THREE.EdgesGeometry(geo);
+
+        const material = new THREE.LineBasicMaterial({
+            color: 0x00ffff,
+            opacity: 0.95,
+            transparent: true,
+        });
+
+        const building = new THREE.LineSegments(edges, material);
+
+        const glowMaterial = new THREE.LineBasicMaterial({
+            color: 0x00ddff,
+            opacity: 0.6,
+            transparent: true,
+        });
+        const glow = new THREE.LineSegments(edges.clone(), glowMaterial);
+        building.add(glow);
+
+        const angle = (i / buildingCount) * Math.PI * 2;
+        const radius = 22;
+        building.position.set(
+            Math.cos(angle) * radius,
+            height / 2 - 5,
+            Math.sin(angle) * radius
+        );
+
+        building.scale.y = 0.01;
+
+        building.userData = {
+            targetHeight: height,
+            currentHeight: 0,
+            growing: true,
+            pulsePhase: Math.random() * Math.PI * 2,
+            baseOpacity: 0.95,
+        };
+
+        scene.add(building);
+        buildings.push(building);
+    }
+
+    /* 애니메이션 */
+    let t = 0;
+
+    function animate() {
+        requestAnimationFrame(animate);
+        t += 0.01;
+
+        const posArr = particleGeometry.attributes.position.array;
+        for (let i = 0; i < particleCount; i++) {
+            posArr[i * 3]     += velocities[i].x;
+            posArr[i * 3 + 1] += velocities[i].y;
+            posArr[i * 3 + 2] += velocities[i].z;
+
+            if (posArr[i * 3 + 1] > 60) posArr[i * 3 + 1] = 0;
+        }
+        particleGeometry.attributes.position.needsUpdate = true;
+
+        buildings.forEach((b, idx) => {
+            if (b.userData.growing) {
+                b.userData.currentHeight += 0.06;
+                const p = b.userData.currentHeight / b.userData.targetHeight;
+                b.scale.y = Math.min(1, p);
+                if (p >= 1) b.userData.growing = false;
+            }
+
+            b.userData.pulsePhase += 0.05;
+            const pulse = Math.sin(b.userData.pulsePhase) * 0.2 + 0.8;
+            b.material.opacity = b.userData.baseOpacity * pulse;
+
+            b.rotation.y = Math.sin(t * 0.2 + idx) * 0.03;
+        });
+
+        renderer.render(scene, camera);
+    }
+
+    animate();
+});
+</script>
+
+</body>
+</html>
+
