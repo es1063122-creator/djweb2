@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>전체 시공실적 | 동진토건(주)</title>
+
+    <link rel="stylesheet" as="style" crossorigin
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
+
+    <style>
+        body {
+            margin: 0;
+            background: #f5f7fa;
+            font-family: 'Pretendard', sans-serif;
+            color: #111;
+        }
+
+        header {
+            padding: 18px 40px;
+            background: white;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .logo {
+            height: 55px;
+            cursor: pointer;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.6rem;
+            margin-top: 60px;
+            font-weight: 800;
+        }
+
+        p.subtitle {
+            text-align: center;
+            margin: 10px 0 20px;
+            font-size: 1.1rem;
+            color: #777;
+        }
+
+        /* 상단 버튼 영역 */
+        .top-actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 40px;
+        }
+
+        .primary-btn,
+        .secondary-btn {
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            border-radius: 999px;
+            padding: 10px 22px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+            transition: 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .primary-btn {
+            background: #004080;
+            color: #fff;
+        }
+        .primary-btn:hover {
+            background: #002e5b;
+            transform: translateY(-1px);
+        }
+
+        .secondary-btn {
+             background: #004080;
+             color: #fff;
+             border: none;
+             font-weight: 700;
+             padding: 12px 26px;
+             border-radius: 999px;
+             box-shadow: 0 4px 12px rgba(0, 64, 128, 0.25);
+             transition: 0.2s ease;
+}
+
+         .secondary-btn:hover {
+              background: #002e5b;
+              transform: translateY(-2px);
+}
+
+        /* Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 28px;
+            padding: 0 5% 100px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 14px;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.07);
+            transition: 0.25s;
+        }
+        .card:hover {
+            transform: translateY(-6px);
+        }
+
+        .thumb {
+            height: 220px;
+            overflow: hidden;
+        }
+
+        .thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.4s;
+        }
+
+        .card:hover img {
+            transform: scale(1.05);
+        }
+
+        .info-box {
+            padding: 18px 20px 20px;
+        }
+
+        .title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .detail {
+            font-size: 0.9rem;
+            margin: 3px 0;
+            color: #444;
+        }
+
+        /* 우측 상단 홈 버튼 */
+        .home-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #004080;
+            padding: 12px 20px;
+            color: white;
+            font-weight: 700;
+            border-radius: 10px;
+            font-size: 15px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+            cursor: pointer;
+            text-decoration: none;
+            z-index: 9999;
+            transition: 0.25s;
+        }
+        .home-btn:hover {
+            background: #002e5b;
+            transform: translateY(-2px);
+        }
+
+        /* Lightbox */
+        #lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.86);
+            backdrop-filter: blur(3px);
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        #lightbox-img {
+            max-width: 90%;
+            max-height: 70vh;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(255,255,255,0.3);
+        }
+
+        .lb-title {
+            margin-top: 18px;
+            color: #fff;
+            font-size: 1.4rem;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .lb-detail {
+            color: #ccc;
+            font-size: 0.95rem;
+            margin-top: 6px;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .lb-controls {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 30px;
+            transform: translateY(-50%);
+        }
+
+        .lb-btn {
+            font-size: 3rem;
+            color: #fff;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .lb-close {
+            position: absolute;
+            top: 20px;
+            right: 26px;
+            font-size: 2.1rem;
+            color: #fff;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        @media (max-width: 768px) {
+            .lb-controls {
+                padding: 0 10px;
+            }
+            .lb-btn {
+                font-size: 2.4rem;
+            }
+        }
+
+        /* =======================
+           CSV 전체 실적 표 영역
+        ======================== */
+        #table-section {
+            display: none;
+            padding: 0 5% 80px;
+        }
+
+        .table-header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .filters select {
+            padding: 8px 12px;
+            border-radius: 999px;
+            border: 1px solid #d1d5db;
+            background: #fff;
+            font-family: inherit;
+            font-size: 0.9rem;
+            min-width: 120px;
+        }
+
+        .table-wrapper {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        thead {
+            background: #eef3ff;
+        }
+
+        th, td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
+        }
+
+        th {
+            font-weight: 700;
+            color: #111827;
+            white-space: nowrap;
+        }
+
+        tbody tr:nth-child(even) {
+            background: #f9fafb;
+        }
+
+        tbody tr:hover {
+            background: #edf2ff;
+        }
+
+        .amount-cell {
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .align-center {
+            text-align: center;
+        }
+
+        #table-loading {
+            padding: 20px 0;
+            text-align: center;
+            color: #6b7280;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 768px) {
+            .table-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .filters {
+                justify-content: flex-start;
+            }
+            th:nth-child(4),
+            td:nth-child(4) {
+                display: none; /* 발주자 열은 모바일에서 숨김(필요하면 삭제) */
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<a class="home-btn" href="index.html">홈으로 →</a>
+
+<header>
+    <img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/logo.png"
+         class="logo" onclick="location.href='index.html'">
+</header>
+
+<h1>전체 시공실적</h1>
+<p class="subtitle">동진토건의 주요 시공 현장을 사진과 함께 확인하세요.</p>
+
+<!-- 상단 액션 버튼: 카드 / 표 전환 -->
+<div class="top-actions">
+    <button class="primary-btn" onclick="showTableSection()">
+        📊 전체 실적 표로 보기
+    </button>
+</div>
+
+<!-- 카드형 갤러리 -->
+<div class="grid" id="card-section">
+    <!-- 0. 마포로3-1지구 주상복합 -->
+    <div class="card" onclick="openLightbox(0)">
+        <div class="thumb">
+            <img loading="lazy"
+                 src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%EB%A7%88%ED%8F%AC%EB%A1%9C3-1%EC%A7%80%EA%B5%AC%20%EC%A3%BC%EC%83%81%EB%B3%B5%ED%95%A9%20%EC%8B%A0%EC%B6%95.jpg">
+        </div>
+        <div class="info-box">
+            <div class="title">마포로3-1지구 주상복합 신축공사</div>
+            <div class="detail">원청: HL D&I한라㈜</div>
+            <div class="detail">기간: 2024.09 ~ 2028.07</div>
+            <div class="detail">위치: 서울 마포구</div>
+            <div class="detail">공사금액: 7,805,712천원</div>
+        </div>
+    </div>
+
+    <!-- 1. 울산 우정동 APT 기반시설 -->
+    <div class="card" onclick="openLightbox(1)">
+        <div class="thumb">
+            <img loading="lazy"
+                 src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%EC%9A%B8%EC%82%B0%20%EC%9A%B0%EC%A0%95%EB%8F%99%20APT%20%EA%B8%B0%EB%B0%98%EC%8B%9C%EC%84%A4%20%ED%86%A0%EB%AA%A9%EA%B3%B5%EC%82%AC.jpg">
+        </div>
+        <div class="info-box">
+            <div class="title">울산 우정동 APT 기반시설 토목공사</div>
+            <div class="detail">원청: HL D&I한라㈜</div>
+            <div class="detail">기간: 2023.08 ~ 2025.06</div>
+            <div class="detail">위치: 울산 중구</div>
+            <div class="detail">공사금액: 3,916,110천원</div>
+        </div>
+    </div>
+
+    <!-- 2. 고덕 아이파크 디어반 -->
+    <div class="card" onclick="openLightbox(2)">
+        <div class="thumb">
+            <img loading="lazy"
+                 src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%EA%B3%A0%EB%8D%95%20%EC%95%84%EC%9D%B4%ED%8C%8C%ED%81%AC%20%EB%94%94%EC%96%B4%EB%B0%98.jpg">
+        </div>
+        <div class="info-box">
+            <div class="title">고덕 아이파크 디어반 부대토목공사</div>
+            <div class="detail">원청: 현대산업개발㈜·제이케이미래강동PFV㈜</div>
+            <div class="detail">기간: 2024.07 ~ 2024.12</div>
+            <div class="detail">위치: 경기 평택시</div>
+            <div class="detail">공사금액: 1,833,155천원</div>
+        </div>
+    </div>
+
+    <!-- 3. 군산 호수공원 IPARK -->
+    <div class="card" onclick="openLightbox(3)">
+        <div class="thumb">
+            <img loading="lazy"
+                 src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%EA%B5%B0%EC%82%B0%20%ED%98%B8%EC%88%98%EA%B3%B5%EC%9B%90%20IPARK%20%EB%B6%80%EB%8C%80%ED%86%A0%EB%AA%A9%EA%B3%B5%EC%82%AC.jpg">
+        </div>
+        <div class="info-box">
+            <div class="title">군산 호수공원 IPARK 부대토목공사</div>
+            <div class="detail">원청: 현대산업개발㈜</div>
+            <div class="detail">기간: 2023.03 ~ 2024.01</div>
+            <div class="detail">위치: 전북 군산시</div>
+            <div class="detail">공사금액: 2,890,743천원</div>
+        </div>
+    </div>
+
+    <!-- 4. 경산 IPARK -->
+    <div class="card" onclick="openLightbox(4)">
+        <div class="thumb">
+            <img loading="lazy"
+                 src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%EA%B2%BD%EC%82%B0%20IPARK%20%EB%B6%80%EB%8C%80%ED%86%A0%EB%AA%A9%EA%B3%B5%EC%82%AC.jpg">
+        </div>
+        <div class="info-box">
+            <div class="title">경산 IPARK 부대토목공사</div>
+            <div class="detail">원청: 현대산업개발㈜</div>
+            <div class="detail">기간: 2023.06 ~ 2024.03</div>
+            <div class="detail">위치: 경북 경산시</div>
+            <div class="detail">공사금액: 1,765,398천원</div>
+        </div>
+    </div>
+
+    <!-- 5. 성남산단재생 복합지식산업센터 -->
+    <div class="card" onclick="openLightbox(5)">
+        <div class="thumb">
+            <img loading="lazy"
+                 src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%EC%84%B1%EB%82%A8%EC%82%B0%EB%8B%A8%EC%9E%AC%EC%83%9D%20%EB%B6%80%EB%8C%80%ED%86%A0%EB%AA%A9.jpg">
+        </div>
+        <div class="info-box">
+            <div class="title">성남산단재생 복합지식산업센터 부대토목공사</div>
+            <div class="detail">원청: 현대산업개발㈜</div>
+            <div class="detail">기간: 2023.11 ~ 2024.03</div>
+            <div class="detail">위치: 경기 성남시</div>
+            <div class="detail">공사금액: 1,043,764천원</div>
+        </div>
+    </div>
+
+    <!-- 6. 김해 사이언스파크 -->
+    <div class="card" onclick="openLightbox(6)">
+        <div class="thumb">
+            <img loading="lazy"
+                 src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%EA%B9%80%ED%95%B4%20%EC%82%AC%EC%9D%B4%EC%96%B8%EC%8A%A4%ED%8C%8C%ED%81%AC%20%EC%9D%BC%EB%B0%98%EC%82%B0%EB%8B%A8%20%EC%A1%B0%EC%84%B1.jpg">
+        </div>
+        <div class="info-box">
+            <div class="title">김해 사이언스파크 일반산단 조성</div>
+            <div class="detail">원청: 현대산업개발㈜</div>
+            <div class="detail">기간: 2025.07 ~ 2028.09</div>
+            <div class="detail">위치: 경남 김해시</div>
+            <div class="detail">공사금액: 3,612,129천원</div>
+        </div>
+    </div>
+
+    <!-- 7. 파주 메디컬클러스터 -->
+    <div class="card" onclick="openLightbox(7)">
+        <div class="thumb">
+            <img loading="lazy"
+                 src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%ED%8C%8C%EC%A3%BC%20%EB%A9%94%EB%94%94%EC%BB%AC%ED%81%B4%EB%9F%AC%EC%8A%A4%ED%84%B0%20%EB%B6%80%EC%A7%80%EC%A1%B0%EC%84%B1%EA%B3%B5%EC%82%AC.jpg">
+        </div>
+        <div class="info-box">
+            <div class="title">파주 메디컬클러스터 부지조성공사</div>
+            <div class="detail">원청: 현대산업개발㈜</div>
+            <div class="detail">기간: 2025.10 ~ 2028.04</div>
+            <div class="detail">위치: 경기 파주시</div>
+            <div class="detail">공사금액: 7,789,888천원</div>
+        </div>
+    </div>
+
+    <!-- 8. 영주 휴천동 IPARK -->
+    <div class="card" onclick="openLightbox(8)">
+        <div class="thumb">
+            <img loading="lazy"
+                 src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%EC%98%81%EC%A3%BC%20%ED%9C%B4%EC%B2%9C%EB%8F%99%20IPARK.jpg">
+        </div>
+        <div class="info-box">
+            <div class="title">영주 휴천동 IPARK 부대토목공사</div>
+            <div class="detail">원청: HDC아이앤콘스㈜</div>
+            <div class="detail">기간: 2025.01 ~ 2025.11</div>
+            <div class="detail">위치: 경북 영주시</div>
+            <div class="detail">공사금액: 1,140,272천원</div>
+        </div>
+    </div>
+
+    <!-- 9. 하남 미사동 하수관로 설치공사 -->
+    <div class="card" onclick="openLightbox(9)">
+        <div class="thumb">
+            <img loading="lazy"
+                 src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%ED%95%98%EB%82%A8%20%EB%AF%B8%EC%82%AC%EB%8F%99%20%ED%95%98%EC%88%98%EA%B4%80%EB%A1%9C%20%EC%84%A4%EC%B9%98.jpg">
+        </div>
+        <div class="info-box">
+            <div class="title">하남 미사동 하수관로 설치공사</div>
+            <div class="detail">원청: 동진토건㈜</div>
+            <div class="detail">기간: 2023.10 ~ 2024.01</div>
+            <div class="detail">위치: 경기 하남시</div>
+            <div class="detail">공사금액: 162,190천원</div>
+        </div>
+    </div>
+
+    <!-- 10. 달봄유 외 14교 보도블록 -->
+    <div class="card" onclick="openLightbox(10)">
+        <div class="thumb">
+            <img loading="lazy"
+                 src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%EB%8B%AC%EB%B4%84%EC%9C%A0%C2%B714%EA%B0%9C%EA%B5%90%20%EB%B3%B4%EB%8F%84%EB%B8%94%EB%A1%9D%20%EB%B3%B4%EC%88%98.jpg">
+        </div>
+        <div class="info-box">
+            <div class="title">달봄유·14개교 보도블록 보수공사</div>
+            <div class="detail">원청: 동진토건㈜</div>
+            <div class="detail">기간: 2023.11 ~ 2023.12</div>
+            <div class="detail">위치: 경기 광주·하남</div>
+            <div class="detail">공사금액: 38,942천원</div>
+        </div>
+    </div>
+
+    <!-- 11. 서울 원아이파크 PHC 파일철거 -->
+    <div class="card" onclick="openLightbox(11)">
+        <div class="thumb">
+            <img loading="lazy"
+                 src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%EC%84%9C%EC%9A%B8%20%EC%9B%90%EC%95%84%EC%9D%B4%ED%8C%8C%ED%81%AC%20PHC%20%ED%8C%8C%EC%9D%BC%EC%B2%A0%EA%B1%B0%EA%B3%B5%EC%82%AC.jpg">
+        </div>
+        <div class="info-box">
+            <div class="title">서울 원아이파크 PHC 파일철거공사</div>
+            <div class="detail">원청: 현대산업개발㈜</div>
+            <div class="detail">기간: 2024.09 ~ 2025.04</div>
+            <div class="detail">위치: 서울 용산구</div>
+            <div class="detail">공사금액: 6,099,389천원</div>
+        </div>
+    </div>
+
+    <!-- 12. 울산 태화강변 S1 공동주택 -->
+    <div class="card" onclick="openLightbox(12)">
+        <div class="thumb">
+            <img loading="lazy"
+                 src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%EC%9A%B8%EC%82%B0%20%ED%83%9C%ED%99%94%EA%B0%95%EB%B3%80%20S1%20%EA%B3%B5%EB%8F%99%EC%A3%BC%ED%83%9D.jpg">
+        </div>
+        <div class="info-box">
+            <div class="title">울산 태화강변 S1 공동주택</div>
+            <div class="detail">원청: HL D&I한라㈜</div>
+            <div class="detail">기간: 2025.04 ~ 2027.06</div>
+            <div class="detail">위치: 울산 남구</div>
+            <div class="detail">공사금액: 3,200,455천원</div>
+        </div>
+    </div>
+
+    <!-- 13. 동탄(2) 기존 도로 철거 -->
+    <div class="card" onclick="openLightbox(13)">
+        <div class="thumb">
+            <img loading="lazy"
+                 src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%EB%8F%99%ED%83%84(2)%20%EA%B2%BD%EB%B6%80%EA%B3%A0%EC%86%8D%EB%8F%84%EB%A1%9C%20%EC%A7%81%EC%84%A0%ED%99%94%EA%B3%B5%EC%82%AC%20%E2%80%93%20%EA%B8%B0%EC%A1%B4%20%EB%8F%84%EB%A1%9C%20%EC%B2%A0%EA%B1%B0.jpg">
+        </div>
+        <div class="info-box">
+            <div class="title">동탄(2) 경부고속도로 직선화공사 – 기존 도로 철거</div>
+            <div class="detail">원청: HL D&I한라㈜</div>
+            <div class="detail">기간: 2023.08 ~ 2023.12</div>
+            <div class="detail">위치: 경기 화성시 동탄2지구</div>
+            <div class="detail">공사금액: 1,573,000천원</div>
+        </div>
+    </div>
+
+    <!-- 14. 동탄(2) 택지조성 -->
+    <div class="card" onclick="openLightbox(14)">
+        <div class="thumb">
+            <img loading="lazy"
+                 src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%EB%8F%99%ED%83%84(2)%20%EA%B2%BD%EB%B6%80%EA%B3%A0%EC%86%8D%EB%8F%84%EB%A1%9C%20%EC%A7%81%EC%84%A0%ED%99%94%EA%B3%B5%EC%82%AC%20%E2%80%93%20%ED%83%9D%EC%A7%80%EC%A1%B0%EC%84%B1%EA%B3%B5%EC%82%AC.jpg">
+        </div>
+        <div class="info-box">
+            <div class="title">동탄(2) 경부고속도로 직선화공사 – 택지조성공사</div>
+            <div class="detail">원청: HL D&I한라㈜</div>
+            <div class="detail">기간: 2024.02 ~ 2024.12</div>
+            <div class="detail">위치: 경기 화성시 동탄2지구</div>
+            <div class="detail">공사금액: 4,821,300천원</div>
+        </div>
+    </div>
+
+    <!-- 15. 홍은13구역 -->
+    <div class="card" onclick="openLightbox(15)">
+        <div class="thumb">
+            <img loading="lazy"
+                 src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%ED%99%8D%EC%9D%8013%EA%B5%AC%EC%97%AD%20%EC%A3%BC%ED%83%9D%EC%9E%AC%EA%B0%9C%EB%B0%9C.jpg">
+        </div>
+        <div class="info-box">
+            <div class="title">홍은13구역 주택재개발 부대토목공사</div>
+            <div class="detail">원청: 현대산업개발㈜</div>
+            <div class="detail">기간: 2024.08 ~ 2025.06</div>
+            <div class="detail">위치: 서울 서대문구 홍은동</div>
+            <div class="detail">공사금액: 2,537,948천원</div>
+        </div>
+    </div>
+</div>
+
+<!-- CSV 전체 실적 표 영역 -->
+<div id="table-section">
+    <div class="table-header">
+        <button class="secondary-btn" onclick="showCardSection()">
+            ← 사진 카드 보기로 돌아가기
+        </button>
+        <div class="filters">
+            <select id="yearFilter" onchange="applyFilters()">
+                <option value="">연도 전체</option>
+            </select>
+            <select id="typeFilter" onchange="applyFilters()">
+                <option value="">공종 전체</option>
+            </select>
+            <select id="clientFilter" onchange="applyFilters()">
+                <option value="">원청사 전체</option>
+            </select>
+        </div>
+    </div>
+
+    <div id="table-loading" style="display:none;">전체 실적 데이터를 불러오는 중입니다...</div>
+
+    <div class="table-wrapper">
+        <table id="projectsTable">
+            <thead>
+            <tr>
+                <th>공사명</th>
+                <th>공종</th>
+                <th>원청사</th>
+                <th>발주자</th>
+                <th>공사기간</th>
+                <th class="amount-cell">공사금액(천원)</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- JS에서 채움 -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Lightbox -->
+<div id="lightbox" onclick="closeLightbox()">
+    <div class="lb-close" onclick="event.stopPropagation(); closeLightbox();">✕</div>
+    <div class="lb-controls">
+        <div class="lb-btn" onclick="event.stopPropagation(); prevImg();">&#10094;</div>
+        <div class="lb-btn" onclick="event.stopPropagation(); nextImg();">&#10095;</div>
+    </div>
+    <img id="lightbox-img" src="">
+    <div class="lb-title"></div>
+    <div class="lb-detail"></div>
+</div>
+
+<script>
+/* ===========================
+   1. 카드 + 라이트박스 데이터
+=========================== */
+const projects = [
+    {
+        img: "https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%EB%A7%88%ED%8F%AC%EB%A1%9C3-1%EC%A7%80%EA%B5%AC%20%EC%A3%BC%EC%83%81%EB%B3%B5%ED%95%A9%20%EC%8B%A0%EC%B6%95.jpg",
+        title: "마포로3-1지구 주상복합 신축공사",
+        detail: "원청: HL D&I한라㈜ | 2024.09 ~ 2028.07 | 서울 마포구 | 공사금액: 7,805,712천원"
+    },
+    {
+        img: "https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%EC%9A%B8%EC%82%B0%20%EC%9A%B0%EC%A0%95%EB%8F%99%20APT%20%EA%B8%B0%EB%B0%98%EC%8B%9C%EC%84%A4%20%ED%86%A0%EB%AA%A9%EA%B3%B5%EC%82%AC.jpg",
+        title: "울산 우정동 APT 기반시설 토목공사",
+        detail: "원청: HL D&I한라㈜ | 2023.08 ~ 2025.06 | 울산 중구 | 공사금액: 3,916,110천원"
+    },
+    {
+        img: "https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%EA%B3%A0%EB%8D%95%20%EC%95%84%EC%9D%B4%ED%8C%8C%ED%81%AC%20%EB%94%94%EC%96%B4%EB%B0%98.jpg",
+        title: "고덕 아이파크 디어반 부대토목공사",
+        detail: "원청: 현대산업개발㈜·제이케이미래강동PFV㈜ | 2024.07 ~ 2024.12 | 경기 평택시 | 공사금액: 1,833,155천원"
+    },
+    {
+        img: "https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%EA%B5%B0%EC%82%B0%20%ED%98%B8%EC%88%98%EA%B3%B5%EC%9B%90%20IPARK%20%EB%B6%80%EB%8C%80%ED%86%A0%EB%AA%A9%EA%B3%B5%EC%82%AC.jpg",
+        title: "군산 호수공원 IPARK 부대토목공사",
+        detail: "원청: 현대산업개발㈜ | 2023.03 ~ 2024.01 | 전북 군산시 | 공사금액: 2,890,743천원"
+    },
+    {
+        img: "https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%EA%B2%BD%EC%82%B0%20IPARK%20%EB%B6%80%EB%8C%80%ED%86%A0%EB%AA%A9%EA%B3%B5%EC%82%AC.jpg",
+        title: "경산 IPARK 부대토목공사",
+        detail: "원청: 현대산업개발㈜ | 2023.06 ~ 2024.03 | 경북 경산시 | 공사금액: 1,765,398천원"
+    },
+    {
+        img: "https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%EC%84%B1%EB%82%A8%EC%82%B0%EB%8B%A8%EC%9E%AC%EC%83%9D%20%EB%B6%80%EB%8C%80%ED%86%A0%EB%AA%A9.jpg",
+        title: "성남산단재생 복합지식산업센터 부대토목공사",
+        detail: "원청: 현대산업개발㈜ | 2023.11 ~ 2024.03 | 경기 성남시 | 공사금액: 1,043,764천원"
+    },
+    {
+        img: "https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%EA%B9%80%ED%95%B4%20%EC%82%AC%EC%9D%B4%EC%96%B8%EC%8A%A4%ED%8C%8C%ED%81%AC%20%EC%9D%BC%EB%B0%98%EC%82%B0%EB%8B%A8%20%EC%A1%B0%EC%84%B1.jpg",
+        title: "김해 사이언스파크 일반산단 조성",
+        detail: "원청: 현대산업개발㈜ | 2025.07 ~ 2028.09 | 경남 김해시 | 공사금액: 3,612,129천원"
+    },
+    {
+        img: "https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%ED%8C%8C%EC%A3%BC%20%EB%A9%94%EB%94%94%EC%BB%AC%ED%81%B4%EB%9F%AC%EC%8A%A4%ED%84%B0%20%EB%B6%80%EC%A7%80%EC%A1%B0%EC%84%B1%EA%B3%B5%EC%82%AC.jpg",
+        title: "파주 메디컬클러스터 부지조성공사",
+        detail: "원청: 현대산업개발㈜ | 2025.10 ~ 2028.04 | 경기 파주시 | 공사금액: 7,789,888천원"
+    },
+    {
+        img: "https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%EC%98%81%EC%A3%BC%20%ED%9C%B4%EC%B2%9C%EB%8F%99%20IPARK.jpg",
+        title: "영주 휴천동 IPARK 부대토목공사",
+        detail: "원청: HDC아이앤콘스㈜ | 2025.01 ~ 2025.11 | 경북 영주시 | 공사금액: 1,140,272천원"
+    },
+    {
+        img: "https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%ED%95%98%EB%82%A8%20%EB%AF%B8%EC%82%AC%EB%8F%99%20%ED%95%98%EC%88%98%EA%B4%80%EB%A1%9C%20%EC%84%A4%EC%B9%98.jpg",
+        title: "하남 미사동 하수관로 설치공사",
+        detail: "원청: 동진토건㈜ | 2023.10 ~ 2024.01 | 경기 하남시 | 공사금액: 162,190천원"
+    },
+    {
+        img: "https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%EB%8B%AC%EB%B4%84%EC%9C%A0%C2%B714%EA%B0%9C%EA%B5%90%20%EB%B3%B4%EB%8F%84%EB%B8%94%EB%A1%9D%20%EB%B3%B4%EC%88%98.jpg",
+        title: "달봄유·14개교 보도블록 보수공사",
+        detail: "원청: 동진토건㈜ | 2023.11 ~ 2023.12 | 경기 광주·하남 | 공사금액: 38,942천원"
+    },
+    {
+        img: "https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%EC%84%9C%EC%9A%B8%20%EC%9B%90%EC%95%84%EC%9D%B4%ED%8C%8C%ED%81%AC%20PHC%20%ED%8C%8C%EC%9D%BC%EC%B2%A0%EA%B1%B0%EA%B3%B5%EC%82%AC.jpg",
+        title: "서울 원아이파크 PHC 파일철거공사",
+        detail: "원청: 현대산업개발㈜ | 2024.09 ~ 2025.04 | 서울 용산구 | 공사금액: 6,099,389천원"
+    },
+    {
+        img: "https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%EC%9A%B8%EC%82%B0%20%ED%83%9C%ED%99%94%EA%B0%95%EB%B3%80%20S1%20%EA%B3%B5%EB%8F%99%EC%A3%BC%ED%83%9D.jpg",
+        title: "울산 태화강변 S1 공동주택",
+        detail: "원청: HL D&I한라㈜ | 2025.04 ~ 2027.06 | 울산 남구 | 공사금액: 3,200,455천원"
+    },
+    {
+        img: "https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%EB%8F%99%ED%83%84(2)%20%EA%B2%BD%EB%B6%80%EA%B3%A0%EC%86%8D%EB%8F%84%EB%A1%9C%20%EC%A7%81%EC%84%A0%ED%99%94%EA%B3%B5%EC%82%AC%20%E2%80%93%20%EA%B8%B0%EC%A1%B4%20%EB%8F%84%EB%A1%9C%20%EC%B2%A0%EA%B1%B0.jpg",
+        title: "동탄(2) 경부고속도로 직선화공사 – 기존 도로 철거",
+        detail: "원청: HL D&I한라㈜ | 2023.08 ~ 2023.12 | 경기 화성시 동탄2지구 | 공사금액: 1,573,000천원"
+    },
+    {
+        img: "https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%EB%8F%99%ED%83%84(2)%20%EA%B2%BD%EB%B6%80%EA%B3%A0%EC%86%8D%EB%8F%84%EB%A1%9C%20%EC%A7%81%EC%84%A0%ED%99%94%EA%B3%B5%EC%82%AC%20%E2%80%93%20%ED%83%9D%EC%A7%80%EC%A1%B0%EC%84%B1%EA%B3%B5%EC%82%AC.jpg",
+        title: "동탄(2) 경부고속도로 직선화공사 – 택지조성공사",
+        detail: "원청: HL D&I한라㈜ | 2024.02 ~ 2024.12 | 경기 화성시 동탄2지구 | 공사금액: 4,821,300천원"
+    },
+    {
+        img: "https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%ED%99%8D%EC%9D%8013%EA%B5%AC%EC%97%AD%20%EC%A3%BC%ED%83%9D%EC%9E%AC%EA%B0%9C%EB%B0%9C.jpg",
+        title: "홍은13구역 주택재개발 부대토목공사",
+        detail: "원청: 현대산업개발㈜ | 2024.08 ~ 2025.06 | 서울 서대문구 홍은동 | 공사금액: 2,537,948천원"
+    }
+];
+
+let currentIndex = 0;
+
+function updateLightbox() {
+    const p = projects[currentIndex];
+    document.getElementById("lightbox-img").src = p.img;
+    document.querySelector(".lb-title").innerText = p.title;
+    document.querySelector(".lb-detail").innerText = p.detail;
+}
+
+function openLightbox(index) {
+    currentIndex = index;
+    updateLightbox();
+    document.getElementById("lightbox").style.display = "flex";
+}
+
+function closeLightbox() {
+    document.getElementById("lightbox").style.display = "none";
+}
+
+function prevImg() {
+    currentIndex = (currentIndex - 1 + projects.length) % projects.length;
+    updateLightbox();
+}
+
+function nextImg() {
+    currentIndex = (currentIndex + 1) % projects.length;
+    updateLightbox();
+}
+
+/* ===========================
+   2. CSV 전체 실적 표 보기
+=========================== */
+const CSV_URL = "https://raw.githubusercontent.com/es1063122-creator/djweb2/main/all-projects.csv";
+
+let allRows = [];      // {name, type, client, owner, period, amount, year}
+let csvLoaded = false;
+let csvLoading = false;
+
+function showTableSection() {
+    document.getElementById("card-section").style.display = "none";
+    document.getElementById("table-section").style.display = "block";
+    document.querySelector(".top-actions").style.display = "none";
+
+    if (!csvLoaded && !csvLoading) {
+        loadCSV();
+    }
+}
+
+function showCardSection() {
+    document.getElementById("card-section").style.display = "grid";
+    document.getElementById("table-section").style.display = "none";
+    document.querySelector(".top-actions").style.display = "flex";
+}
+
+function loadCSV() {
+    csvLoading = true;
+    const loadingEl = document.getElementById("table-loading");
+    if (loadingEl) loadingEl.style.display = "block";
+
+    fetch(CSV_URL)
+        .then(res => res.text())
+        .then(text => {
+            parseCSV(text);
+            csvLoaded = true;
+            csvLoading = false;
+            if (loadingEl) loadingEl.style.display = "none";
+            initFilters();
+            renderTable(allRows);
+        })
+        .catch(err => {
+            console.error(err);
+            csvLoading = false;
+            if (loadingEl) loadingEl.style.display = "none";
+            alert("전체 실적 데이터를 불러오지 못했습니다. GitHub CSV 경로를 확인해주세요.");
+        });
+}
+
+function parseCSV(text) {
+    const lines = text.trim().split(/\r?\n/);
+    if (lines.length <= 1) return;
+
+    // 구분자 자동 판단(쉼표 또는 탭)
+    const headerLine = lines[0];
+    const delimiter = headerLine.indexOf(",") !== -1 ? "," : "\t";
+
+    // 헤더는 이미 알고 있으므로 바로 데이터 처리
+    for (let i = 1; i < lines.length; i++) {
+        const line = lines[i].trim();
+        if (!line) continue;
+        const cols = line.split(delimiter);
+        if (cols.length < 6) continue;
+
+        const name   = cols[0].trim();
+        const type   = cols[1].trim(); // 공종
+        const client = cols[2].trim(); // 원청사
+        const owner  = cols[3].trim(); // 발주자
+        const period = cols[4].trim(); // 공사기간
+        const amount = cols[5].trim(); // 공사금액(천원)
+
+        let year = "";
+        if (period && period.length >= 4) {
+            const y = parseInt(period.slice(0, 4), 10);
+            if (!isNaN(y)) year = String(y);
+        }
+
+        allRows.push({ name, type, client, owner, period, amount, year });
+    }
+
+    // 기본 정렬: 공사기간 시작연도 내림차순, 같으면 공사명
+    allRows.sort((a, b) => {
+        const ay = parseInt(a.year || "0", 10);
+        const by = parseInt(b.year || "0", 10);
+        if (ay !== by) return by - ay;
+        return a.name.localeCompare(b.name, "ko");
+    });
+}
+
+function initFilters() {
+    const yearSelect   = document.getElementById("yearFilter");
+    const typeSelect   = document.getElementById("typeFilter");
+    const clientSelect = document.getElementById("clientFilter");
+
+    const yearSet   = new Set();
+    const typeSet   = new Set();
+    const clientSet = new Set();
+
+    allRows.forEach(r => {
+        if (r.year)   yearSet.add(r.year);
+        if (r.type)   typeSet.add(r.type);
+        if (r.client) clientSet.add(r.client);
+    });
+
+    const years = Array.from(yearSet).sort((a, b) => parseInt(b) - parseInt(a));
+    years.forEach(y => {
+        const opt = document.createElement("option");
+        opt.value = y;
+        opt.textContent = y + "년";
+        yearSelect.appendChild(opt);
+    });
+
+    const types = Array.from(typeSet).sort((a, b) => a.localeCompare(b, "ko"));
+    types.forEach(t => {
+        const opt = document.createElement("option");
+        opt.value = t;
+        opt.textContent = t;
+        typeSelect.appendChild(opt);
+    });
+
+    const clients = Array.from(clientSet).sort((a, b) => a.localeCompare(b, "ko"));
+    clients.forEach(c => {
+        const opt = document.createElement("option");
+        opt.value = c;
+        opt.textContent = c;
+        clientSelect.appendChild(opt);
+    });
+}
+
+function applyFilters() {
+    const yearVal   = document.getElementById("yearFilter").value;
+    const typeVal   = document.getElementById("typeFilter").value;
+    const clientVal = document.getElementById("clientFilter").value;
+
+    const filtered = allRows.filter(r => {
+        if (yearVal && r.year !== yearVal) return false;
+        if (typeVal && r.type !== typeVal) return false;
+        if (clientVal && r.client !== clientVal) return false;
+        return true;
+    });
+
+    renderTable(filtered);
+}
+
+function renderTable(rows) {
+    const tbody = document.querySelector("#projectsTable tbody");
+    tbody.innerHTML = "";
+
+    if (!rows.length) {
+        const tr = document.createElement("tr");
+        const td = document.createElement("td");
+        td.colSpan = 6;
+        td.className = "align-center";
+        td.textContent = "조건에 해당하는 실적이 없습니다.";
+        tr.appendChild(td);
+        tbody.appendChild(tr);
+        return;
+    }
+
+    rows.forEach(r => {
+        const tr = document.createElement("tr");
+
+        const tdName   = document.createElement("td");
+        const tdType   = document.createElement("td");
+        const tdClient = document.createElement("td");
+        const tdOwner  = document.createElement("td");
+        const tdPeriod = document.createElement("td");
+        const tdAmt    = document.createElement("td");
+
+        tdName.textContent   = r.name;
+        tdType.textContent   = r.type;
+        tdClient.textContent = r.client;
+        tdOwner.textContent  = r.owner;
+        tdPeriod.textContent = r.period;
+
+       tdAmt.textContent = Number(r.amount.replace(/[^0-9]/g, "")).toLocaleString();
+       tdAmt.className   = "amount-cell";
+
+        tr.appendChild(tdName);
+        tr.appendChild(tdType);
+        tr.appendChild(tdClient);
+        tr.appendChild(tdOwner);
+        tr.appendChild(tdPeriod);
+        tr.appendChild(tdAmt);
+
+        tbody.appendChild(tr);
+    });
+}
+</script>
+
+</body>
+</html>
