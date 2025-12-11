@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>연약지반 안정화공법 SOIL-FIRM | 동진토건(주)</title>
+
+    <!-- Fonts -->
+    <link rel="stylesheet" as="style" crossorigin 
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
+
+    <style>
+        :root {
+            --primary:#004A99;
+            --primary-dark:#002E5D;
+            --light-bg:#F2F7FF;
+            --gray:#4A4A4A;
+            --dark:#111827;
+            --white:#ffffff;
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; }
+
+        body {
+            font-family:'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+            color:var(--dark);
+            background:var(--light-bg);
+            line-height:1.7;
+        }
+
+        a { text-decoration:none; color:inherit; }
+        img { max-width:100%; display:block; }
+
+        /* HEADER */
+        header {
+            width:100%;
+            padding:14px 6%;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            background:var(--white);
+            box-shadow:0 2px 14px rgba(0,0,0,0.06);
+            position:sticky;
+            top:0;
+            z-index:1000;
+            border-bottom:3px solid var(--primary);
+        }
+        .logo {
+            width:210px;
+            cursor:pointer;
+        }
+
+        .back-btn {
+            padding:9px 18px;
+            background:var(--primary-dark);
+            color:#fff;
+            border-radius:999px;
+            font-size:0.9rem;
+            font-weight:700;
+            cursor:pointer;
+            transition:0.2s;
+        }
+        .back-btn:hover {
+            background:var(--primary);
+        }
+
+        /* Breadcrumb */
+        nav.breadcrumb {
+            width:100%;
+            background:#f1f5fb;
+            border-bottom:1px solid #d9e2f0;
+            padding:10px 6%;
+            font-size:0.92rem;
+            color:#4b5563;
+        }
+        nav.breadcrumb span { cursor:pointer; }
+
+        /* HERO */
+        .hero {
+            position:relative;
+            width:100%;
+            min-height:260px;
+            max-height:420px;
+            overflow:hidden;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background:#000;
+        }
+        .hero-bg {
+            position:absolute;
+            top:50%; left:50%;
+            width:100%; height:100%;
+            object-fit:cover;
+            transform:translate(-50%, -50%);
+            filter:brightness(52%) blur(2px);
+        }
+        .hero-overlay {
+            position:absolute; inset:0;
+            background:
+                radial-gradient(circle at 30% 20%, rgba(0,123,255,0.35), transparent 55%),
+                linear-gradient(135deg, rgba(0,10,40,0.95), rgba(0,40,110,0.85));
+        }
+        .hero-content {
+            position:relative;
+            text-align:center;
+            padding:40px 6%;
+            color:#f9fafb;
+        }
+        .hero-tag {
+            display:inline-block;
+            padding:6px 14px;
+            border-radius:999px;
+            border:1px solid rgba(255,255,255,0.35);
+            font-size:0.85rem;
+            margin-bottom:14px;
+            background:rgba(15,23,42,0.6);
+        }
+        .hero-title {
+            font-size:2.4rem;
+            font-weight:800;
+            margin-bottom:8px;
+        }
+
+        /* SECTION */
+        .section { padding:50px 6%; }
+
+        .section-title {
+            font-size:1.8rem;
+            font-weight:800;
+            color:var(--primary-dark);
+            margin-bottom:24px;
+            display:flex;
+            align-items:center;
+            gap:10px;
+        }
+        .section-title span {
+            width:6px; height:24px;
+            border-radius:999px;
+            background:linear-gradient(180deg, var(--primary), var(--primary-dark));
+        }
+
+        /* 카탈로그 이미지 */
+        .catalog-pages {
+            max-width:1100px;
+            margin:0 auto;
+        }
+        .catalog-page {
+            margin-bottom:40px;
+        }
+        .catalog-page img {
+            width:100%;
+            border-radius:14px;
+            box-shadow:0 18px 45px rgba(15,23,42,0.22);
+        }
+
+        /* 영상 */
+        .video-caption {
+            position:absolute;
+            bottom:30px;
+            left:50%;
+            transform:translateX(-50%);
+            width:90%;
+            background:rgba(0,0,0,0.45);
+            padding:14px 18px;
+            color:white;
+            font-size:1.15rem;
+            font-weight:600;
+            text-align:center;
+            border-radius:12px;
+            backdrop-filter:blur(4px);
+            box-shadow:0 6px 18px rgba(0,0,0,0.45);
+        }
+        @media(max-width:768px) {
+            .video-caption {
+                font-size:0.9rem !important;
+                padding:10px 12px !important;
+                bottom:20px !important;
+            }
+        }
+        @media(max-width:480px) {
+            .video-caption {
+                font-size:0.8rem !important;
+                padding:8px 10px !important;
+            }
+        }
+
+        /* 자료실 */
+        .download-section {
+            background:#ffffff;
+            border-top:1px solid rgba(15,23,42,0.06);
+            border-bottom:1px solid rgba(15,23,42,0.06);
+        }
+        .grid-2 {
+            display:grid;
+            grid-template-columns:repeat(3, 1fr);
+            gap:24px;
+        }
+        @media(max-width:768px) {
+            .grid-2 { grid-template-columns:1fr; }
+        }
+
+        .card {
+            background:#ffffff;
+            padding:22px 20px;
+            border-radius:16px;
+            box-shadow:0 10px 24px rgba(15,23,42,0.08);
+            border-left:4px solid var(--primary);
+        }
+
+        .btn-download {
+            display:inline-block;
+            margin-top:10px;
+            padding:10px 20px;
+            background:var(--primary-dark);
+            color:#fff;
+            border-radius:999px;
+            font-weight:700;
+            transition:0.2s;
+        }
+
+        /* PDF 미리보기 모달 */
+        #previewModal {
+            display:none;
+            position:fixed;
+            top:0; left:0;
+            width:100%; height:100%;
+            background:rgba(0,0,0,0.75);
+            z-index:10000;
+            align-items:center;
+            justify-content:center;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header>
+    <img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/logo.png"
+         class="logo" onclick="location.href='index.html'">
+
+    <div class="back-btn" onclick="location.href='index.html'">← 홈</div>
+</header>
+
+<!-- BREADCRUMB -->
+<nav class="breadcrumb">
+    <span onclick="location.href='index.html'">HOME</span>
+    &nbsp;>&nbsp;
+    <span onclick="location.href='soil-firm.html'">연약지반 안정화공법</span>
+    &nbsp;>&nbsp;
+    <strong>Soil-Firm 카탈로그</strong>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/soilfirm_01.jpg" class="hero-bg">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <div class="hero-tag">SOIL-FIRM · PREMIUM ECO STABILIZER</div>
+        <h1 class="hero-title">연약지반 안정화공법 · SOIL-FIRM</h1>
+    </div>
+</section>
+
+<!-- 카탈로그 (자동 18장 생성) -->
+<section class="section">
+    <h2 class="section-title"><span></span> 제품 카탈로그 전체보기</h2>
+
+    <div class="catalog-pages">
+        <script>
+            for (let i = 1; i <= 18; i++) {
+                const num = String(i).padStart(2, '0');
+                document.write(`
+                    <div class="catalog-page">
+                        <img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/soilfirm_${num}.jpg">
+                    </div>
+                `);
+            }
+        </script>
+    </div>
+</section>
+
+<!-- 시공 영상 -->
+<section class="section">
+    <h2 class="section-title"><span></span> 시공 영상</h2>
+
+    <div style="
+        position:relative;
+        max-width:900px;
+        margin:0 auto;
+        border-radius:16px;
+        overflow:hidden;
+        border:2px solid #002E5D;
+        background:#000;">
+        
+        <video controls autoplay muted playsinline style="width:100%; height:auto;">
+            <source src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%EC%8B%9C%EA%B3%B5%EC%98%81%EC%83%81.mp4" type="video/mp4">
+        </video>
+
+        <div class="video-caption">
+            현장 토사 재활용 기반<br>
+            친환경·경제적 연약지반 안정화 시공
+        </div>
+    </div>
+</section>
+
+<!-- 자료실 -->
+<section class="section download-section">
+    <h2 class="section-title"><span></span> 자료실</h2>
+
+    <div class="grid-2">
+
+        <!-- 시험성적서 -->
+        <div class="card">
+            <h3>📄 시험성적서</h3>
+            <p>평판재하시험 성적서 미리보기</p>
+            <button class="btn-download" onclick="openPreview('test_report')">미리보기</button>
+        </div>
+
+        <!-- 연약지반 안정화공법 시방서 -->
+        <div class="card">
+            <h3>📄 연약지반 안정화공법 시방서</h3>
+            <p>고화처리 공법 시방서 미리보기</p>
+            <button class="btn-download" onclick="openPreview('spec_doc')">미리보기</button>
+        </div>
+
+        <!-- 카탈로그 PDF 다운로드 유지 -->
+        <div class="card">
+            <h3>📄 Soil-Firm 제품 카탈로그</h3>
+            <p>원본 PDF 다운로드</p>
+            <a class="btn-download"
+               href="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/Dongjin%20Soil%20Firm%20Product%20Catalog.pdf"
+               download>다운로드</a>
+        </div>
+
+    </div>
+</section>
+
+<!-- 이미지 미리보기 모달 -->
+<div id="previewModal" style="
+    display:none;
+    position:fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    background:rgba(0,0,0,0.75);
+    z-index:10000;
+    align-items:center;
+    justify-content:center;
+">
+    <div style="
+        background:#fff;
+        width:75%;
+        height:75%;
+        max-width:800px;
+        padding:20px;
+        overflow:auto;
+        position:relative;
+        border-radius:12px;
+        box-shadow:0 12px 35px rgba(0,0,0,0.35);
+    ">
+        <!-- 닫기 버튼 -->
+        <div onclick="closePreview()" style="
+            position:absolute;
+            top:15px; right:20px;
+            background:#004A99;
+            color:#fff;
+            padding:8px 16px;
+            border-radius:8px;
+            cursor:pointer;
+            font-size:0.9rem;
+        ">
+            닫기 ✕
+        </div>
+
+        <!-- 문서 제목 -->
+        <div id="previewTitle"
+             style="font-size:1.05rem; font-weight:700; margin-bottom:12px; color:#002E5D;">
+        </div>
+
+        <!-- 이미지 미리보기 -->
+        <img id="previewImage" src="" style="
+            width:100%;
+            height:auto;
+            max-height:600px;
+            object-fit:contain;
+            border-radius:10px;
+        ">
+    </div>
+</div>
+
+
+<!-- SCRIPT: PDF 미리보기 -->
+<script>
+function openPreview(type) {
+
+    const img = document.getElementById("previewImage");
+    const title = document.getElementById("previewTitle");
+
+    if (type === "test_report") {
+        img.src = "https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%EC%8B%9C%ED%97%98%EC%84%B1%EC%A0%81%EC%84%9C.png";
+        title.innerHTML = "📄 시험성적서 미리보기";
+    }
+
+    if (type === "spec_doc") {
+        img.src = "https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%EC%8B%9C%EB%B0%A9%EC%84%9C.png";
+        title.innerHTML = "📄 연약지반 안정화공법 시방서 미리보기";
+    }
+
+    document.getElementById("previewModal").style.display = "flex";
+}
+
+function closePreview() {
+    document.getElementById("previewModal").style.display = "none";
+    document.getElementById("previewImage").src = "";
+}
+</script>
+
+<!-- FOOTER -->
+<footer style="
+    background: #0b1f3a;
+    padding: 45px 6% 40px;
+    color: #cdd6e5;
+    text-align: center;
+    border-top: 4px solid #004A99;
+    font-size: 0.95rem;
+    letter-spacing: 0.2px;
+">
+
+    <div style="font-weight:700; font-size:1.05rem; color:#ffffffd9; margin-bottom:6px;">
+        © 2010–2025 DONGJIN CONSTRUCTION Co., Ltd.
+    </div>
+
+    <div style="opacity:0.85; margin-bottom:14px;">
+        SOIL-FIRM 연약지반 안정화공법 · 기술 소개 페이지
+    </div>
+
+    <div style="height:1px; width:120px; background:#446089; margin:15px auto;"></div>
+
+    <div style="font-size:0.85rem; opacity:0.7;">
+        All Rights Reserved. | Engineered with Safety · Reliability · Innovation
+    </div>
+
+</footer>
+
+
+</body>
+</html>
