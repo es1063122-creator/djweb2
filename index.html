@@ -19,11 +19,13 @@
     <title>동진토건(주)</title>
 
     <!-- Fonts -->
-    <link rel="stylesheet" as="style" crossorigin
-          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    
     <style>
         :root {
             --primary: #004080;
@@ -1158,8 +1160,8 @@ nav a:hover::after {
         });
 
         closeBtn.addEventListener("click", closeModal);
-        modal.addEventListener("click", (e) => {https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js
-            if (e.target === modal) closeModal();
+        modal.addEventListener("click", (e) => {
+                if (e.target === modal) closeModal();
         });
 
         window.addEventListener("keydown", (e) => {
@@ -1171,7 +1173,7 @@ nav a:hover::after {
 <!-- =========================
         THREE.JS CDN
 ========================== -->
-
+<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
 <!-- =========================
         3D HERO BACKGROUND
 ========================== -->
