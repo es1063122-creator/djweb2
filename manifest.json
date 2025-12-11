@@ -1,12 +1,10 @@
 {
-  "name": "동진토건(주) 홈페이지",
+  "name": "동진토건(주)",
   "short_name": "동진토건",
-  "description": "Dongjin Construction Official Website & Safety Portal",
   "start_url": "/",
-  "scope": "/",
   "display": "standalone",
-  "background_color": "#003a70",
-  "theme_color": "#004b8d",
+  "background_color": "#ffffff",
+  "theme_color": "#004080",
   "icons": [
     {
       "src": "/icons/icon-192.png",
