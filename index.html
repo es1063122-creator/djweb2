@@ -22,6 +22,7 @@
     <link rel="stylesheet" as="style" crossorigin
           href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
 
     <style>
         :root {
@@ -1157,7 +1158,7 @@ nav a:hover::after {
         });
 
         closeBtn.addEventListener("click", closeModal);
-        modal.addEventListener("click", (e) => {
+        modal.addEventListener("click", (e) => {https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js
             if (e.target === modal) closeModal();
         });
 
@@ -1170,13 +1171,17 @@ nav a:hover::after {
 <!-- =========================
         THREE.JS CDN
 ========================== -->
-<script defer src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
 
 <!-- =========================
         3D HERO BACKGROUND
 ========================== -->
 <script defer>
 window.addEventListener("load", () => {
+    if (!window.THREE) {
+        console.error("THREE.js not loaded — 3D 배경 비활성화");
+        return;   // 더 이상 진행하지 않고 2D 화면 유지
+    }
+
     const container = document.getElementById("hero-3d-container");
     const canvas = document.getElementById("dj-hero-canvas");
     const staticImage = document.getElementById("hero-static-image");
