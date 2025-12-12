@@ -171,18 +171,12 @@
             backdrop-filter:blur(4px);
             box-shadow:0 6px 18px rgba(0,0,0,0.45);
         }
+
         @media(max-width:768px) {
-            .video-caption {
-                font-size:0.9rem !important;
-                padding:10px 12px !important;
-                bottom:20px !important;
-            }
+            .video-caption { font-size:0.9rem; padding:10px 12px; bottom:20px; }
         }
         @media(max-width:480px) {
-            .video-caption {
-                font-size:0.8rem !important;
-                padding:8px 10px !important;
-            }
+            .video-caption { font-size:0.8rem; padding:8px 10px; }
         }
 
         /* 자료실 */
@@ -216,7 +210,6 @@
             color:#fff;
             border-radius:999px;
             font-weight:700;
-            transition:0.2s;
         }
 
         /* PDF 미리보기 모달 */
@@ -262,21 +255,39 @@
     </div>
 </section>
 
-<!-- 카탈로그 (자동 18장 생성) -->
+<!-- 카탈로그 (23장 적용 / 스크립트 제거) -->
 <section class="section">
     <h2 class="section-title"><span></span> 제품 카탈로그 전체보기</h2>
 
     <div class="catalog-pages">
-        <script>
-            for (let i = 1; i <= 18; i++) {
-                const num = String(i).padStart(2, '0');
-                document.write(`
-                    <div class="catalog-page">
-                        <img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/soilfirm_${num}.jpg">
-                    </div>
-                `);
-            }
-        </script>
+        <!-- 23장 이미지 -->
+        <div class="catalog-page"><img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/soilfirm_01.jpg"></div>
+        <div class="catalog-page"><img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/soilfirm_02.jpg"></div>
+        <div class="catalog-page"><img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/soilfirm_03.jpg"></div>
+        <div class="catalog-page"><img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/soilfirm_04.jpg"></div>
+        <div class="catalog-page"><img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/soilfirm_05.jpg"></div>
+
+        <div class="catalog-page"><img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/soilfirm_06.jpg"></div>
+        <div class="catalog-page"><img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/soilfirm_07.jpg"></div>
+        <div class="catalog-page"><img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/soilfirm_08.jpg"></div>
+        <div class="catalog-page"><img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/soilfirm_09.jpg"></div>
+        <div class="catalog-page"><img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/soilfirm_10.jpg"></div>
+
+        <div class="catalog-page"><img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/soilfirm_11.jpg"></div>
+        <div class="catalog-page"><img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/soilfirm_12.jpg"></div>
+        <div class="catalog-page"><img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/soilfirm_13.jpg"></div>
+        <div class="catalog-page"><img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/soilfirm_14.jpg"></div>
+        <div class="catalog-page"><img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/soilfirm_15.jpg"></div>
+
+        <div class="catalog-page"><img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/soilfirm_16.jpg"></div>
+        <div class="catalog-page"><img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/soilfirm_17.jpg"></div>
+        <div class="catalog-page"><img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/soilfirm_18.jpg"></div>
+        <div class="catalog-page"><img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/soilfirm_19.jpg"></div>
+        <div class="catalog-page"><img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/soilfirm_20.jpg"></div>
+
+        <div class="catalog-page"><img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/soilfirm_21.jpg"></div>
+        <div class="catalog-page"><img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/soilfirm_22.jpg"></div>
+        <div class="catalog-page"><img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/soilfirm_23.jpg"></div>
     </div>
 </section>
 
@@ -388,7 +399,6 @@
     </div>
 </div>
 
-
 <!-- SCRIPT: PDF 미리보기 -->
 <script>
 function openPreview(type) {
@@ -441,7 +451,6 @@ function closePreview() {
     </div>
 
 </footer>
-
 
 </body>
 </html>
