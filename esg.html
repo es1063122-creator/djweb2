@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ESG 경영 | 동진토건(주)</title>
+
+<!-- Pretendard -->
+<link rel="stylesheet" crossorigin
+  href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
+
+<!-- GSAP + ScrollTrigger -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
+<style>
+:root{
+  --blue:#004080;
+  --blue2:#007bff;
+  --green:#34c759;
+  --mint:#8ff0d1;
+  --bg:#f4f8ff;
+  --dark:#0b1220;
+  --gray:#6b7280;
+  --card:#ffffff;
+  --line:rgba(15,23,42,.12);
+  --shadow:0 18px 50px rgba(0,0,0,.10);
+  --shadow2:0 10px 26px rgba(0,0,0,.08);
+  --radius:22px;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  font-family:'Pretendard', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  background:var(--bg);
+  color:#111;
+  overflow-x:hidden;
+}
+
+a{color:inherit;}
+.container{
+  width:min(1180px, calc(100% - 40px));
+  margin:0 auto;
+}
+.section{
+  padding:110px 0;
+}
+.mini{
+  padding:70px 0;
+}
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:8px 14px;
+  border-radius:999px;
+  background:rgba(52,199,89,.12);
+  color:#1b7f3e;
+  font-weight:800;
+  letter-spacing:.06em;
+  font-size:12px;
+}
+.badge .dot{
+  width:8px;height:8px;border-radius:50%;
+  background:linear-gradient(135deg,var(--green),var(--mint));
+}
+
+.h2{
+  font-size:44px;
+  line-height:1.15;
+  color:var(--blue);
+  letter-spacing:-.02em;
+}
+.p{
+  margin-top:14px;
+  color:#2d3748;
+  font-size:18px;
+  line-height:1.85;
+}
+.kicker{
+  margin-top:16px;
+  color:rgba(255,255,255,.88);
+  font-size:18px;
+  line-height:1.75;
+}
+.subtle{
+  color:var(--gray);
+  font-size:14px;
+  line-height:1.6;
+}
+
+.grid{
+  display:grid;
+  gap:24px;
+}
+.grid-3{grid-template-columns:repeat(3,1fr);}
+.grid-4{grid-template-columns:repeat(4,1fr);}
+@media (max-width: 980px){
+  .grid-3,.grid-4{grid-template-columns:1fr;}
+  .h2{font-size:34px;}
+}
+
+/* ================= HERO ================= */
+.hero{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  background:
+    radial-gradient(1000px 600px at 20% 20%, rgba(143,240,209,.18), transparent 55%),
+    radial-gradient(800px 520px at 78% 28%, rgba(0,123,255,.20), transparent 55%),
+    linear-gradient(135deg, #0a2a4f 0%, #003a7a 45%, #195cc8 100%);
+  color:#fff;
+  position:relative;
+  overflow:hidden;
+}
+.hero::before{
+  content:"";
+  position:absolute; inset:-2px;
+  background:
+    radial-gradient(500px 500px at 15% 70%, rgba(52,199,89,.10), transparent 60%),
+    radial-gradient(700px 520px at 82% 72%, rgba(255,255,255,.08), transparent 65%);
+  pointer-events:none;
+}
+#particles-js{
+  position:absolute;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+}
+.hero .wrap{
+  position:relative;
+  z-index:2;
+  display:grid;
+  grid-template-columns:1.15fr .85fr;
+  gap:28px;
+  align-items:center;
+}
+@media (max-width: 980px){
+  .hero .wrap{grid-template-columns:1fr;}
+}
+.h1{
+  font-size:56px;
+  line-height:1.05;
+  letter-spacing:-.03em;
+  font-weight:950;
+}
+@media (max-width: 980px){ .h1{font-size:44px;} }
+
+.hero-card{
+  background:rgba(255,255,255,.18);   /* ← 밝기 증가 */
+  border:1px solid rgba(255,255,255,.28);
+  backdrop-filter: blur(12px);        /* ← 살짝 고급화 */
+  border-radius:28px;
+  padding:24px;
+  box-shadow: 0 22px 60px rgba(0,0,0,.18);
+}
+.hero-metrics{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+  margin-top:16px;
+}
+.metric{
+  background:rgba(255,255,255,.22);   /* ← 숫자 가독성 ↑ */
+  border:1px solid rgba(255,255,255,.22);
+  border-radius:18px;
+  padding:14px 14px;
+}
+.metric .t{
+  font-size:12px;
+  letter-spacing:.1em;
+  opacity:.85;
+}
+.metric .v{
+  margin-top:6px;
+  font-size:26px;
+  font-weight:900;
+}
+.metric .s{
+  margin-top:2px;
+  font-size:12px;
+  opacity:.9;
+}
+
+.hero-cta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:22px;
+}
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  padding:14px 18px;
+  border-radius:999px;
+  text-decoration:none;
+  font-weight:900;
+  border:1px solid transparent;
+  transition:transform .25s ease, box-shadow .25s ease, background .25s ease;
+}
+.btn-primary{
+  background:linear-gradient(135deg, rgba(255,255,255,.92), rgba(255,255,255,.82));
+  color:#0a2a4f;
+}
+.btn-ghost{
+  background:rgba(255,255,255,.08);
+  border-color:rgba(255,255,255,.20);
+  color:#fff;
+}
+.btn:hover{transform:translateY(-3px); box-shadow:0 14px 30px rgba(0,0,0,.22);}
+.btn small{font-weight:800; opacity:.85;}
+
+/* ================= Card blocks ================= */
+.card{
+  background:linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+  border:1px solid rgba(0,64,128,.12);
+  border-radius:var(--radius);
+  padding:26px;
+  box-shadow:0 12px 30px rgba(0,64,128,.08);
+}
+.card h3{
+  font-size:20px;
+  letter-spacing:-.01em;
+}
+.card p{margin-top:10px; color:#374151; line-height:1.85;}
+.esg-rank{
+  display:flex;
+  align-items:center;
+  gap:14px;
+
+  background:linear-gradient(
+    135deg,
+    rgba(255,255,255,.95),
+    rgba(240,248,255,.95)
+  );
+  border:1px solid rgba(255,255,255,.6);
+  border-radius:999px;
+
+  padding:14px 22px;
+  box-shadow:0 10px 30px rgba(0,0,0,.18);
+
+  margin-bottom:14px;
+}
+
+/* ESG2 배지 */
+.esg-rank .k{
+  background:linear-gradient(135deg,#003a7a,#007bff);
+  color:#fff;
+  font-size:13px;
+  font-weight:900;
+  padding:6px 12px;
+  border-radius:999px;
+}
+
+/* ESG 2등급 텍스트 */
+.esg-rank strong{
+  font-size:26px;
+  font-weight:950;
+  color:#003a7a;
+  letter-spacing:-.02em;
+}
+
+/* 상위 7.1% 강조 */
+.esg-rank em{
+  font-style:normal;
+  font-size:18px;
+  font-weight:900;
+  color:#1fa463;
+}/* ================= Process ================= */
+.process-line{
+  margin-top:26px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+}
+@media (max-width:980px){ .process-line{grid-template-columns:1fr;} }
+.step{
+  text-align:left;
+  padding:20px;
+  border-radius:22px;
+  background:linear-gradient(180deg,#f8fbff,#fff);
+  border:1px solid var(--line);
+  box-shadow:var(--shadow2);
+  position:relative;
+  overflow:hidden;
+}
+.step::before{
+  content:"";
+  position:absolute; inset:-1px;
+  background: radial-gradient(420px 220px at 10% 20%, rgba(0,123,255,.12), transparent 60%),
+              radial-gradient(420px 220px at 85% 85%, rgba(52,199,89,.10), transparent 55%);
+  pointer-events:none;
+}
+.step strong{
+  position:relative;
+  display:block;
+  font-size:14px;
+  letter-spacing:.12em;
+  color:#0b3b75;
+  font-weight:950;
+}
+.step h4{
+  position:relative;
+  margin-top:8px;
+  font-size:18px;
+  font-weight:950;
+  color:var(--dark);
+}
+.step p{
+  position:relative;
+  margin-top:10px;
+  color:#3b4454;
+  line-height:1.75;
+  font-size:15px;
+}
+
+/* ================= KPI animated table ================= */
+.table-wrap{
+  margin-top:28px;
+  overflow:auto;
+  border-radius:22px;
+  box-shadow:var(--shadow);
+  border:1px solid var(--line);
+  background:#fff;
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:860px;
+}
+thead th{
+  position:sticky;
+  top:0;
+  z-index:2;
+  background:linear-gradient(135deg,var(--blue),var(--blue2));
+  color:#fff;
+  font-size:14px;
+  letter-spacing:.04em;
+  padding:16px 18px;
+  text-align:left;
+}
+tbody td{
+  padding:16px 18px;
+  border-bottom:1px solid rgba(15,23,42,.10);
+  font-size:15px;
+}
+tbody tr{
+  transform-origin:center;
+  transition:transform .25s ease, background .25s ease;
+}
+tbody tr:hover{
+  background:rgba(0,123,255,.06);
+  transform:scale(1.01);
+}
+.tag{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:6px 10px;
+  border-radius:999px;
+  background:rgba(52,199,89,.10);
+  color:#1b7f3e;
+  font-weight:900;
+  font-size:12px;
+}
+.tag.sh{background:rgba(255,193,7,.12); color:#8a5a00;}
+.tag.g{background:rgba(0,64,128,.10); color:#0b3b75;}
+.tag.s{background:rgba(236,72,153,.10); color:#9d174d;}
+.tag.e{background:rgba(52,199,89,.10); color:#1b7f3e;}
+
+.bar{
+  width:100%;
+  height:10px;
+  background:#eef2f7;
+  border-radius:999px;
+  overflow:hidden;
+}
+.bar span{
+  display:block;
+  height:100%;
+  width:0;
+  background:linear-gradient(90deg, var(--green), var(--blue2));
+  border-radius:999px;
+}
+
+/* ================= Image gallery ================= */
+.gallery{
+  display:grid;
+  grid-template-columns:1.3fr .7fr;
+  gap:16px;
+  margin-top:22px;
+}
+@media (max-width:980px){ .gallery{grid-template-columns:1fr;} }
+.gallery .big{
+  border-radius:22px;
+  overflow:hidden;
+  border:1px solid var(--line);
+  box-shadow:var(--shadow2);
+  background:#fff;
+  aspect-ratio: 16/9;
+}
+.gallery .big img{width:100%;height:100%;object-fit:cover;transform:scale(1.03);}
+.gallery .side{
+  display:grid;
+  grid-template-rows:1fr 1fr;
+  gap:16px;
+}
+.gallery .small{
+  border-radius:22px;
+  overflow:hidden;
+  border:1px solid var(--line);
+  box-shadow:var(--shadow2);
+  background:#fff;
+  aspect-ratio: 16/9;
+}
+.gallery img{width:100%;height:100%;object-fit:cover;}
+
+/* ================= Split feature ================= */
+.split{
+  display:grid;
+  grid-template-columns:1.05fr .95fr;
+  gap:24px;
+  align-items:start;
+}
+@media (max-width:980px){ .split{grid-template-columns:1fr;} }
+
+.list{
+  margin-top:14px;
+  padding-left:18px;
+  color:#374151;
+  line-height:1.9;
+}
+.list li{margin:6px 0;}
+
+/* ================= Trust footer ================= */
+.trust{
+  background:linear-gradient(135deg,#061a33,#0b3570,#0f5bd1);
+  color:#fff;
+  position:relative;
+  overflow:hidden;
+}
+.trust::before{
+  content:"";
+  position:absolute; inset:-1px;
+  background:
+    radial-gradient(600px 500px at 20% 20%, rgba(52,199,89,.18), transparent 60%),
+    radial-gradient(900px 520px at 80% 70%, rgba(255,255,255,.10), transparent 60%);
+  pointer-events:none;
+}
+.trust .container{position:relative; z-index:2;}
+.trust .h2{color:#fff;}
+.trust .p{color:rgba(255,255,255,.88);}
+.trust-cards .card{
+  background:rgba(255,255,255,.10);
+  border:1px solid rgba(255,255,255,.18);
+  color:#fff;
+}
+.trust-cards .card p{color:rgba(255,255,255,.88);}
+
+/* ================= Anim base ================= */
+.fade-up{opacity:0; transform:translateY(40px);}
+.reveal-left{opacity:0; transform:translateX(-40px);}
+.reveal-right{opacity:0; transform:translateX(40px);}
+.row-anim{opacity:0; transform:translateY(18px);}
+</style>
+</head>
+
+<body>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div id="particles-js"></div>
+  <div class="container wrap">
+    <div>
+      <div class="badge fade-up"><span class="dot"></span> ESG MANAGEMENT</div>
+      <h1 class="h1 fade-up">ESG 경영</h1>
+      <p class="kicker fade-up">
+        동진토건(주)은 환경(E), 사회(S), 지배구조(G), 안전보건(SH)을 아우르는 ESG 경영 체계를 구축하여,<br>
+        지속가능한 건설회사를 지향합니다.
+      </p>
+
+      
+    </div>
+
+    <div class="hero-card fade-up">
+      <div class="pill esg-rank">
+        <span class="k">ESG2</span>
+        <strong>ESG 2등급</strong>
+        <em>상위 7.1%</em>
+      </div>
+      <div class="hero-metrics">
+        <div class="metric">
+          <div class="t">TOTAL SCORE</div>
+          <div class="v num" data-count="75.8">0</div>
+          <div class="s">/ 100</div>
+        </div>
+        <div class="metric">
+          <div class="t">ENVIRONMENT</div>
+          <div class="v">E4</div>
+          <div class="s">환경</div>
+        </div>
+        <div class="metric">
+          <div class="t">SOCIAL</div>
+          <div class="v">S3</div>
+          <div class="s">사회</div>
+        </div>
+        <div class="metric">
+          <div class="t">GOVERNANCE</div>
+          <div class="v">G3</div>
+          <div class="s">지배구조</div>
+        </div>
+      </div>
+      <p class="subtle" style="margin-top:14px; color:rgba(255,255,255,.78);">
+        * 홈페이지 공개용 요약 구성(ESG·SH 핵심 체계/목표/활동 중심)
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ESG PROCESS ================= -->
+<section class="section" style="background:#fff;">
+  <div class="container">
+    <div class="badge fade-up"><span class="dot"></span> ESG PROCESS</div>
+    <h2 class="h2 fade-up">ESG 운영 체계</h2>
+    <p class="p fade-up">
+      동진토건의 ESG는 일회성 선언이 아닌 <b>계획(Plan) → 실행(Do) → 점검(Check) → 개선(Act)</b>의
+      순환 구조로 운영됩니다.
+    </p>
+
+    <div class="process-line">
+      <div class="step fade-up">
+        <strong>PLAN</strong>
+        <h4>방침 · 목표 수립</h4>
+        <p>ESG·안전보건 방침 확립<br>연간 목표 및 KPI 정의</p>
+      </div>
+      <div class="step fade-up">
+        <strong>DO</strong>
+        <h4>현장 실행</h4>
+        <p>친환경 자재·공법 적용<br>위험성평가 기반 예방 활동</p>
+      </div>
+      <div class="step fade-up">
+        <strong>CHECK</strong>
+        <h4>정기 점검</h4>
+        <p>안전점검·비상훈련<br>환경·안전 성과 모니터링</p>
+      </div>
+      <div class="step fade-up">
+        <strong>ACT</strong>
+        <h4>개선 · 고도화</h4>
+        <p>지표 기반 개선활동<br>지속가능 수준 향상</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= POLICIES + GOALS ================= -->
+<section class="section">
+  <div class="container">
+    <div class="badge fade-up"><span class="dot"></span> POLICY & GOALS</div>
+    <h2 class="h2 fade-up">방침 및 2025 목표</h2>
+    <p class="p fade-up">
+      현장 안전과 환경 성과를 동시에 달성하기 위해, 명확한 방침과 목표를 수립하고 실행합니다.
+    </p>
+
+    <div class="grid grid-2 split" style="margin-top:26px;">
+      <div class="card reveal-left">
+        <div class="pill"><span class="k">SH</span> 안전보건 방침</div>
+        <h3 style="margin-top:12px;">근로자 생명 보호 최우선</h3>
+        <ul class="list">
+          <li>모든 업무에서 근로자의 생명과 안전을 최우선 가치로 실천합니다.</li>
+          <li>위험성평가를 기반으로 한 사전 예방 중심의 안전관리를 강화합니다.</li>
+          <li>쾌적하고 안전한 작업환경을 조성하여 안심하고 일할 수 있는 현장을 구축합니다.</li>
+          <li>전 임직원의 참여를 통해 지속 가능한 안전문화를 정착합니다.</li>
+        </ul>
+
+        <div style="margin-top:18px;">
+          <div class="pill"><span class="k">SH</span> 2025 안전보건 목표</div>
+          <ul class="list">
+            <li><b>안전사고 ZERO</b> 도전</li>
+            <li><b>중대재해 ZERO</b>, <b>추락재해 ZERO</b></li>
+            <li>위험요인 100% 발굴 및 제거</li>
+            <li>위험성평가 이행률 100% 달성</li>
+            <li>정기 안전교육 이수율 100% 유지</li>
+            <li>안전보건 예산의 체계적 편성 및 집행</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card reveal-right">
+        <div class="pill"><span class="k">E</span> 환경 방침</div>
+        <h3 style="margin-top:12px;">지속가능한 건설 활동</h3>
+        <ul class="list">
+          <li>환경 친화적 경영을 통해 기업 신뢰도와 브랜드 가치를 높입니다.</li>
+          <li>현장의 모든 공정에서 환경오염 요인을 사전에 발굴·관리합니다.</li>
+          <li>친환경 자재와 공법을 적극 도입하여 환경 영향을 최소화합니다.</li>
+          <li>지속적인 환경 개선 활동을 통해 지역사회와 함께 성장합니다.</li>
+        </ul>
+
+        <div style="margin-top:18px;">
+          <div class="pill"><span class="k">E</span> 2025 환경 목표</div>
+          <ul class="list">
+            <li>환경교육 및 훈련 연 2회 이상 정기 실시</li>
+            <li>혼합폐기물 배출량 20% 감축</li>
+            <li>대기·수질오염 및 소음·진동 저감률 20% 이상 달성</li>
+            <li>환경 관련 법규 위반 ZERO 유지</li>
+            <li>친환경 자재 및 친환경 공법 적용 현장 지속 확대</li>
+          </ul>
+        </div>
+
+        <a class="btn btn-primary" style="margin-top:16px; display:inline-flex;"
+           href="https://djenc.co.kr/soft-ground.html" target="_blank" rel="noopener">
+          🌱 친환경 공법(연약지반 안정화공법) 보기 →
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= KEY METRICS (COUNT UP) ================= -->
+<section class="mini" style="background:#fff;">
+  <div class="container">
+    <div class="badge fade-up"><span class="dot"></span> KEY HIGHLIGHTS</div>
+    <h2 class="h2 fade-up">핵심 성과 지표</h2>
+    <p class="p fade-up">숫자로 확인하는 동진토건 ESG·안전보건 핵심 지표</p>
+
+    <div class="grid grid-4" style="margin-top:26px;">
+      <div class="card fade-up">
+        <div class="pill"><span class="k">SH</span> 중대재해</div>
+        <div style="margin-top:10px; font-size:44px; font-weight:950; color:var(--dark);">
+          <span class="num" data-count="0">0</span><span style="font-size:16px; color:var(--gray); font-weight:900;"> 건</span>
+        </div>
+        <p class="subtle">최근 3년 기준(목표: ZERO)</p>
+      </div>
+
+      <div class="card fade-up">
+        <div class="pill"><span class="k">E</span> 환경법규 위반</div>
+        <div style="margin-top:10px; font-size:44px; font-weight:950; color:var(--dark);">
+          <span class="num" data-count="0">0</span><span style="font-size:16px; color:var(--gray); font-weight:900;"> 건</span>
+        </div>
+        <p class="subtle">최근 3년 기준(목표: ZERO)</p>
+      </div>
+
+      <div class="card fade-up">
+        <div class="pill"><span class="k">S</span> 정규직 비율</div>
+        <div style="margin-top:10px; font-size:44px; font-weight:950; color:var(--dark);">
+          <span class="num" data-count="100">0</span><span style="font-size:16px; color:var(--gray); font-weight:900;"> %</span>
+        </div>
+        <p class="subtle">고용 안정 및 근로환경 개선</p>
+      </div>
+
+      <div class="card fade-up">
+        <div class="pill"><span class="k">ESG</span> 종합등급</div>
+        <div style="margin-top:10px; font-size:44px; font-weight:950; color:var(--dark);">ESG 2</div>
+        <p class="subtle">지속가능경영 체계 및 성과 우수(상위 7.1%)</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ESG PILLARS (E/S/G/SH) ================= -->
+<section class="section">
+  <div class="container">
+    <div class="badge fade-up"><span class="dot"></span> ESG PILLARS</div>
+    <h2 class="h2 fade-up">ESG · 안전보건(SH) 영역별 운영</h2>
+    <p class="p fade-up">
+      동진토건은 환경(E) · 사회(S) · 지배구조(G) · 안전보건(SH)을 종합적으로 관리하며<br>
+      장기적인 기업가치와 현장 안전을 동시에 추구합니다.
+    </p>
+
+    <div class="grid grid-4" style="margin-top:26px;">
+      <div class="card fade-up">
+        <div class="tag e">E · Environment</div>
+        <h3 style="margin-top:10px;">환경경영체계 강화</h3>
+        <ul class="list">
+          <li>환경경영 방침 수립 및 전사 공유</li>
+          <li>전 근로자 대상 환경교육 정기 실시</li>
+          <li>친환경 건설공사 참여 및 친환경 자재(EPS 블록 등) 사용</li>
+          <li>최근 3년간 환경법규 위반 0건 유지</li>
+        </ul>
+      </div>
+
+      <div class="card fade-up">
+        <div class="tag s">S · Social</div>
+        <h3 style="margin-top:10px;">사회적 책임 · 상생경영</h3>
+        <ul class="list">
+          <li>근로자 100% 정규직 고용 및 임금체불 0건</li>
+          <li>복리후생비·교육비 등 인적 투자 확대</li>
+          <li>장애인 고용, 기부·봉사활동 등 지역사회 공헌</li>
+          <li>법정 의무교육·인권·차별금지 규정 및 교육 체계 보유</li>
+        </ul>
+
+        </a>
+      </div>
+
+      <div class="card fade-up">
+        <div class="tag g">G · Governance</div>
+        <h3 style="margin-top:10px;">건전한 지배구조 · 윤리경영</h3>
+        <ul class="list">
+          <li>최근 3년간 최대주주 변경 없는 안정적 지배구조</li>
+          <li>대표이사 및 주요 경영진의 풍부한 업계 경력</li>
+          <li>국세·지방세·금융채무 연체 0건 유지</li>
+          <li>윤리규정·윤리서약·내부고발 및 보호제도 운영</li>
+        </ul>
+      </div>
+
+      <div class="card fade-up">
+        <div class="tag sh">SH · Safety & Health</div>
+        <h3 style="margin-top:10px;">현장 중심 안전경영</h3>
+        <ul class="list">
+          <li>위험성평가·안전점검·비상훈련 정기 실시</li>
+          <li>대표이사 안전교육 이수 및 정기적인 현장 안전활동</li>
+          <li>산업재해율 0%, 중대재해 0건(최근 3년)</li>
+          <li>연간 안전보건 예산 별도 수립 및 지속 투자</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SOCIAL GALLERY (3 IMAGES) ================= -->
+<section class="section" style="background:#fff;">
+  <div class="container">
+    <div class="badge fade-up"><span class="dot"></span> COMMUNITY</div>
+    <h2 class="h2 fade-up">지역사회와 함께하는 사회공헌</h2>
+    <p class="p fade-up">
+      동진토건은 지역사회와의 상생을 위해 기부·봉사활동 등 사회공헌을 지속적으로 실천합니다.
+      <br><span class="subtle">* 아래 이미지는 사용자 제공 GitHub 이미지(3장) 기반 갤러리 구성</span>
+    </p>
+
+    <div class="gallery">
+      <div class="big reveal-left">
+        <img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%EB%B4%89%EC%82%AC1.png" alt="봉사활동 1" />
+      </div>
+      <div class="side reveal-right">
+        <div class="small">
+          <img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%EB%B4%89%EC%82%AC2.png" alt="봉사활동 2" />
+        </div>
+        <div class="small">
+          <img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%EB%B4%89%EC%82%AC3.png" alt="봉사활동 3" />
+        </div>
+      </div>
+    </div>
+
+    <div class="card fade-up" style="margin-top:18px;">
+      <h3>사회(S) 확장 포인트</h3>
+      <p>
+        • 고용안정(정규직 100%)과 근로자 보호(법정의무교육·인권·차별금지 체계)를 기반으로<br>
+        • 장애인 고용 및 지역사회 기부·봉사활동 참여를 통해 사회적 책임을 이행합니다.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MOVING KPI TABLE (Youngshine-like 느낌) ================= -->
+<section id="kpi" class="section">
+  <div class="container">
+    <div class="badge fade-up"><span class="dot"></span> MOVING TABLE</div>
+    <h2 class="h2 fade-up">2025 목표 · 추진 현황 (움직이는 표)</h2>
+    <p class="p fade-up">
+      스크롤 시 행이 순차적으로 등장하고, 진행 바가 자연스럽게 채워지는 인터랙티브 KPI 표입니다.
+    </p>
+
+    <div class="table-wrap fade-up">
+      <table aria-label="ESG KPI Table">
+        <thead>
+          <tr>
+            <th>영역</th>
+            <th>항목</th>
+            <th>2025 목표</th>
+            <th>현재 상태</th>
+            <th>진행률</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="row-anim">
+            <td><span class="tag sh">SH</span></td>
+            <td><b>중대재해</b></td>
+            <td>ZERO</td>
+            <td>유지</td>
+            <td><div class="bar"><span style="width:100%"></span></div></td>
+          </tr>
+          <tr class="row-anim">
+            <td><span class="tag sh">SH</span></td>
+            <td><b>추락재해</b></td>
+            <td>ZERO</td>
+            <td>유지</td>
+            <td><div class="bar"><span style="width:100%"></span></div></td>
+          </tr>
+          <tr class="row-anim">
+            <td><span class="tag sh">SH</span></td>
+            <td>위험요인 발굴 및 제거</td>
+            <td>100%</td>
+            <td>진행 중</td>
+            <td><div class="bar"><span style="width:85%"></span></div></td>
+          </tr>
+          <tr class="row-anim">
+            <td><span class="tag sh">SH</span></td>
+            <td>위험성평가 이행률</td>
+            <td>100%</td>
+            <td>진행 중</td>
+            <td><div class="bar"><span style="width:92%"></span></div></td>
+          </tr>
+          <tr class="row-anim">
+            <td><span class="tag sh">SH</span></td>
+            <td>정기 안전교육 이수율</td>
+            <td>100%</td>
+            <td>유지</td>
+            <td><div class="bar"><span style="width:95%"></span></div></td>
+          </tr>
+
+          <tr class="row-anim">
+            <td><span class="tag e">E</span></td>
+            <td>환경교육·훈련</td>
+            <td>연 2회 이상</td>
+            <td>진행 중</td>
+            <td><div class="bar"><span style="width:50%"></span></div></td>
+          </tr>
+          <tr class="row-anim">
+            <td><span class="tag e">E</span></td>
+            <td>혼합폐기물 배출량 감축</td>
+            <td>20% 감축</td>
+            <td>진행 중</td>
+            <td><div class="bar"><span style="width:60%"></span></div></td>
+          </tr>
+          <tr class="row-anim">
+            <td><span class="tag e">E</span></td>
+            <td>대기·수질·소음·진동 저감</td>
+            <td>20% 이상</td>
+            <td>추진 중</td>
+            <td><div class="bar"><span style="width:55%"></span></div></td>
+          </tr>
+          <tr class="row-anim">
+            <td><span class="tag e">E</span></td>
+            <td><b>환경 관련 법규 위반</b></td>
+            <td>ZERO</td>
+            <td>유지</td>
+            <td><div class="bar"><span style="width:100%"></span></div></td>
+          </tr>
+          <tr class="row-anim">
+            <td><span class="tag e">E</span></td>
+            <td>친환경 자재·공법 적용 현장 확대</td>
+            <td>지속 확대</td>
+            <td>진행 중</td>
+            <td><div class="bar"><span style="width:78%"></span></div></td>
+          </tr>
+
+          <tr class="row-anim">
+            <td><span class="tag s">S</span></td>
+            <td>정규직 고용 유지</td>
+            <td>100%</td>
+            <td>유지</td>
+            <td><div class="bar"><span style="width:100%"></span></div></td>
+          </tr>
+          <tr class="row-anim">
+            <td><span class="tag s">S</span></td>
+            <td>법정 의무교육·인권교육 체계</td>
+            <td>정기 운영</td>
+            <td>운영 중</td>
+            <td><div class="bar"><span style="width:90%"></span></div></td>
+          </tr>
+
+          <tr class="row-anim">
+            <td><span class="tag g">G</span></td>
+            <td>윤리경영(서약·내부고발 보호)</td>
+            <td>운영</td>
+            <td>운영 중</td>
+            <td><div class="bar"><span style="width:88%"></span></div></td>
+          </tr>
+          <tr class="row-anim">
+            <td><span class="tag g">G</span></td>
+            <td>세금·금융채무 연체</td>
+            <td>0건</td>
+            <td>유지</td>
+            <td><div class="bar"><span style="width:100%"></span></div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="subtle" style="margin-top:12px;">
+      * 위 표의 “현황/진행률” 값은 홈페이지 표현용 예시입니다. 실제 운영 데이터(월별/분기별)로 교체하면 “라이브 ESG 대시보드”로 확장됩니다.
+    </p>
+  </div>
+</section>
+
+<!-- ================= ENV FEATURE (Soft-ground + Eco material) ================= -->
+<section class="section" style="background:#fff;">
+  <div class="container">
+    <div class="badge fade-up"><span class="dot"></span> ENVIRONMENT FEATURE</div>
+    <h2 class="h2 fade-up">연약지반 안정화공법 × 친환경 자재</h2>
+    <p class="p fade-up">
+      동진토건은 <b>연약지반 안정화공법</b> 적용 시 <b>친환경 자재(EPS 블록 등)</b>를 활용하여,
+      환경 영향을 최소화하고 장기적인 지반 안정성과 지속가능성을 함께 추구합니다.
+    </p>
+
+    <div class="split" style="margin-top:22px;">
+      <div class="card reveal-left">
+        <h3>친환경 적용 포인트</h3>
+        <ul class="list">
+          <li>친환경 인증 자재 활용으로 환경 리스크 저감</li>
+          <li>토사 반출·폐기물 발생 저감(현장 효율 향상)</li>
+          <li>재시공 최소화를 통한 탄소배출 저감</li>
+          <li>현장 품질·안전·환경을 동시에 고려한 공법 운영</li>
+        </ul>
+        <a class="btn btn-primary" style="margin-top:10px; display:inline-flex;"
+           href="https://djenc.co.kr/soft-ground.html" target="_blank" rel="noopener">
+          🌱 SOIL-FIRM 공법 상세 보기 →
+        </a>
+      </div>
+
+      <div class="card reveal-right">
+        <h3>환경(E) 운영 강화</h3>
+        <p>
+          • 환경교육 및 훈련 정기 실시<br>
+          • 오염 요인 사전 발굴 및 관리(대기/수질/소음/진동)<br>
+          • 환경 관련 법규 준수 및 위반 ZERO 유지<br>
+          • 친환경 자재·공법 적용 현장 지속 확대
+        </p>
+        <div style="margin-top:14px;" class="pill"><span class="k">E</span> 지속가능한 건설 활동</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TRUST / FOOTER CTA ================= -->
+<section class="section trust">
+  <div class="container">
+    <div class="badge fade-up" style="background:rgba(255,255,255,.14); color:#fff;">
+      <span class="dot"></span> TRUST & VALUE
+    </div>
+    <h2 class="h2 fade-up">동진토건 ESG 경영</h2>
+    <p class="p fade-up">
+      환경(E) · 사회(S) · 지배구조(G) · 안전보건(SH)을 통합적으로 관리하며<br>
+      장기적인 기업가치와 현장 안전을 동시에 추구합니다.
+    </p>
+
+    <div class="grid grid-4 trust-cards" style="margin-top:26px;">
+      <div class="card fade-up">
+        <h3>ESG2</h3>
+        <p>종합등급 · 상위 7.1%</p>
+      </div>
+      <div class="card fade-up">
+        <h3>SH</h3>
+        <p>안전사고 ZERO 도전</p>
+      </div>
+      <div class="card fade-up">
+        <h3>E</h3>
+        <p>친환경 자재·공법 적용 확대</p>
+      </div>
+      <div class="card fade-up">
+        <h3>G</h3>
+        <p>윤리·투명 경영 체계 운영</p>
+      </div>
+    </div>
+
+    <p class="subtle" style="margin-top:26px; color:rgba(255,255,255,.70);">
+      © 2010–2025 DONGJIN CONSTRUCTION Co., Ltd.
+    </p>
+  </div>
+</section>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+/* 기본 등장 애니메이션 */
+gsap.utils.toArray(".fade-up").forEach((el)=>{
+  gsap.to(el,{
+    scrollTrigger:{trigger:el,start:"top 85%"},
+    opacity:1, y:0, duration:1.0, ease:"power3.out"
+  });
+});
+gsap.utils.toArray(".reveal-left").forEach((el)=>{
+  gsap.to(el,{
+    scrollTrigger:{trigger:el,start:"top 85%"},
+    opacity:1, x:0, duration:1.0, ease:"power3.out"
+  });
+});
+gsap.utils.toArray(".reveal-right").forEach((el)=>{
+  gsap.to(el,{
+    scrollTrigger:{trigger:el,start:"top 85%"},
+    opacity:1, x:0, duration:1.0, ease:"power3.out"
+  });
+});
+
+/* 숫자 카운트업 (data-count 있는 것만) */
+gsap.utils.toArray(".num").forEach((el)=>{
+  const end = el.getAttribute("data-count");
+  if(!end) return;
+
+  const isFloat = String(end).includes(".");
+  gsap.fromTo(el,{innerText:0},{
+    innerText: end,
+    duration: 1.6,
+    ease: "power1.out",
+    snap: { innerText: isFloat ? 0.1 : 1 },
+    scrollTrigger: { trigger: el, start: "top 88%" },
+    onUpdate: () => {
+      const v = parseFloat(el.innerText);
+      el.innerText = isFloat ? v.toFixed(1) : Math.round(v);
+    }
+  });
+});
+
+/* KPI 표: 행 순차 등장 */
+gsap.utils.toArray(".row-anim").forEach((row, i)=>{
+  gsap.to(row,{
+    scrollTrigger:{trigger:row,start:"top 92%"},
+    opacity:1, y:0,
+    duration:.75,
+    delay: i * 0.05,
+    ease:"power3.out"
+  });
+});
+
+/* KPI 표: 진행 바 채우기 */
+gsap.utils.toArray(".bar span").forEach((bar)=>{
+  const target = bar.style.width;      // e.g. "85%"
+  bar.style.width = "0%";              // start collapsed
+  gsap.to(bar,{
+    scrollTrigger:{trigger:bar,start:"top 90%"},
+    width: target,
+    duration: 1.4,
+    ease: "power2.out"
+  });
+});
+</script>
+<script>
+particlesJS("particles-js", {
+  particles: {
+    number: { value: 55 },
+    color: { value: "#ffffff" },
+    opacity: { value: 0.25 },
+    size: { value: 2 },
+    move: { speed: 1.2 },
+    line_linked: {
+      enable: true,
+      opacity: 0.15
+    }
+  },
+  interactivity: {
+    events: {
+      onhover: { enable: false }
+    }
+  },
+  retina_detect: true
+});
+</script>
+
+
+</body>
+</html>
