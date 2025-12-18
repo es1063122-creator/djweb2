@@ -688,20 +688,7 @@ nav a:hover::after {
 /* =======================================
        WORKSPACE 버튼 스타일 (이 부분 추가)
     ======================================== */
-    .nav-workspace-btn {
-        background: #ffffff;
-        color: #004080 !important;
-        padding: 8px 18px;
-        border-radius: 8px;
-        font-weight: 800;
-        border: 2px solid #004080;
-        transition: 0.25s ease;
-    }
 
-    .nav-workspace-btn:hover {
-        background: #004080;
-        color: #ffffff !important;
-    }
     </style>
 </head>
 <body>
@@ -718,26 +705,28 @@ nav a:hover::after {
     >
 
 <nav id="navbar">
-    <a href="https://es1063122-creator.github.io/djweb2/company.html" onclick="closeMenuOnMobile()">회사소개</a>
-    <a href="#business" onclick="closeMenuOnMobile()">사업영역</a>
+  <a href="https://es1063122-creator.github.io/djweb2/company.html" onclick="closeMenuOnMobile()">회사소개</a>
+  <a href="#business" onclick="closeMenuOnMobile()">사업영역</a>
 
-    <!-- ⭐ 연약지반 안정화공법 추가 -->
-    <a href="soft-ground.html" onclick="closeMenuOnMobile()">연약지반 안정화공법</a>
+  <!-- ✅ ESG경영 추가 (GitHub 연결) -->
+  <a href="https://es1063122-creator.github.io/djweb2/esg.html"
+     target="_blank" rel="noopener"
+     onclick="closeMenuOnMobile()">ESG경영</a>
 
-    <a href="#projects" onclick="closeMenuOnMobile()">주요실적</a>
+  <!-- ⭐ 연약지반 안정화공법 -->
+  <a href="soft-ground.html" onclick="closeMenuOnMobile()">연약지반 안정화공법</a>
 
-    <!-- ⭐ 안전포털 추가 -->
-    <a href="https://es1063122-creator.github.io/dj-safty-portal/"
-       target="_blank"
-       onclick="closeMenuOnMobile()">안전포털</a>
+  <a href="#projects" onclick="closeMenuOnMobile()">주요실적</a>
 
-    <a href="#location" onclick="closeMenuOnMobile()">오시는길</a>
-   
-    <!-- ⭐ 그룹웨어 추가 -->
-   <a href="https://djenc.daouoffice.com/app/home"
-      target="_blank"
-      class="nav-workspace-btn"
-      onclick="closeMenuOnMobile()">동진WORKSPACE</a>
+  <!-- ⭐ 안전포털 -->
+  <a href="https://es1063122-creator.github.io/dj-safty-portal/"
+     target="_blank" rel="noopener"
+     onclick="closeMenuOnMobile()">안전포털</a>
+
+  <!-- ✅ 오시는길 → WORKSPACE 로 변경 -->
+  <a href="https://djenc.daouoffice.com/login"
+     target="_blank" rel="noopener"
+     onclick="closeMenuOnMobile()">WORKSPACE</a>
 </nav>
 
 
@@ -919,10 +908,11 @@ nav a:hover::after {
         </div>
 
         <div>
-            <iframe
-                src="https://maps.google.com/maps?q=경기도%20하남시%20미사강변중앙로%20210&z=16&output=embed"
-                style="width:100%; height:400px; border-radius:12px; border:0;">
-            </iframe>
+<iframe
+  src="https://map.naver.com/v5/search/%EA%B2%BD%EA%B8%B0%EB%8F%84%20%ED%95%98%EB%82%A8%EC%8B%9C%20%EB%AF%B8%EC%82%AC%EA%B0%95%EB%B3%80%EC%A4%91%EC%95%99%EB%A1%9C%20210?c=15,0,0,0,dh"
+  style="width:100%; height:400px; border-radius:12px; border:0;"
+  loading="lazy">
+</iframe>
         </div>
     </div>
 </section>
