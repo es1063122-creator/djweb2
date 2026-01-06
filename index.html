@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
    <!-- NAVER MAP API -->
-<script src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=msg2o68rca"></script>
+<script defer src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=msg2o68rca"></script>
 
     
     <style>
@@ -1507,24 +1507,49 @@ window.addEventListener("load", () => {
     });
 });
 </script>
-<!-- ✅ 네이버 지도 초기화 스크립트 (여기 추가) -->
-<script>
-  // 동진토건 위치 (경기도 하남시 미사강변중앙로 210)
-  const position = new naver.maps.LatLng(37.563664, 127.195577);
+window.addEventListener('load', function() {
+  // naver 객체가 로드될 때까지 대기
+  if (typeof naver === 'undefined' || !naver.maps) {
+    console.error('네이버 지도 API가 로드되지 않았습니다.');
+    return;
+  }
 
-  const map = new naver.maps.Map('naverMap', {
-    center: position,
-    zoom: 16,
-    zoomControl: true,
-    zoomControlOptions: {
-      position: naver.maps.Position.TOP_RIGHT
-    }
-  });
+  try {
+    // 동진토건 위치 (경기도 하남시 미사강변중앙로 210)
+    const position = new naver.maps.LatLng(37.563664, 127.195577);
 
-  const marker = new naver.maps.Marker({
-    position: position,
-    map: map
-  });
+    const map = new naver.maps.Map('naverMap', {
+      center: position,
+      zoom: 16,
+      zoomControl: true,
+      zoomControlOptions: {
+        position: naver.maps.Position.TOP_RIGHT
+      }
+    });
+
+    const marker = new naver.maps.Marker({
+      position: position,
+      map: map,
+      title: '동진토건(주)'
+    });
+
+    // 정보창 추가 (선택사항)
+    const infoWindow = new naver.maps.InfoWindow({
+      content: '<div style="padding:10px;"><strong>동진토건(주)</strong><br>경기도 하남시 미사강변중앙로 210, 1006호</div>'
+    });
+
+    naver.maps.Event.addListener(marker, 'click', function() {
+      if (infoWindow.getMap()) {
+        infoWindow.close();
+      } else {
+        infoWindow.open(map, marker);
+      }
+    });
+
+  } catch (error) {
+    console.error('지도 초기화 오류:', error);
+  }
+});
 </script>
 </body>
 </html>
