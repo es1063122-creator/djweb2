@@ -322,11 +322,26 @@
     <div class="grid-2">
 
         <!-- 시험성적서 -->
-        <div class="card">
-            <h3>📄 시험성적서</h3>
-            <p>평판재하시험 성적서 미리보기</p>
-            <button class="btn-download" onclick="openPreview('test_report')">미리보기</button>
-        </div>
+        <!-- 시험성적서 1 -->
+    <div class="card">
+        <h3>📄 시험성적서 1</h3>
+        <p>연약지반 안정화공법 시험성적서</p>
+        <button class="btn-download" onclick="openPreview('test_report_1')">미리보기</button>
+    </div>
+
+    <!-- 시험성적서 2 -->
+    <div class="card">
+        <h3>📄 시험성적서 2</h3>
+        <p>연약지반 안정화공법 시험성적서</p>
+        <button class="btn-download" onclick="openPreview('test_report_2')">미리보기</button>
+    </div>
+
+    <!-- 시험성적서 3 (기존) -->
+    <div class="card">
+        <h3>📄 시험성적서 3</h3>
+        <p>평판재하시험 성적서</p>
+        <button class="btn-download" onclick="openPreview('test_report_3')">미리보기</button>
+    </div>
 
         <!-- 연약지반 안정화공법 시방서 -->
         <div class="card">
@@ -406,9 +421,22 @@ function openPreview(type) {
     const img = document.getElementById("previewImage");
     const title = document.getElementById("previewTitle");
 
-    if (type === "test_report") {
+    /* 시험성적서 1 */
+    if (type === "test_report_1") {
+        img.src = "https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%EC%8B%9C%ED%97%98%EC%84%B1%EC%A0%81%EC%84%9C1.png";
+        title.innerHTML = "📄 시험성적서 1";
+    }
+
+    /* 시험성적서 2 */
+    if (type === "test_report_2") {
+        img.src = "https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%EC%8B%9C%ED%97%98%EC%84%B1%EC%A0%81%EC%84%9C2.png";
+        title.innerHTML = "📄 시험성적서 2";
+    }
+
+    /* 시험성적서 3 */
+    if (type === "test_report_3") {
         img.src = "https://raw.githubusercontent.com/es1063122-creator/djweb2/main/%EC%8B%9C%ED%97%98%EC%84%B1%EC%A0%81%EC%84%9C.png";
-        title.innerHTML = "📄 시험성적서 미리보기";
+        title.innerHTML = "📄 시험성적서 3";
     }
 
     if (type === "spec_doc") {
