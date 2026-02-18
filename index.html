@@ -1414,6 +1414,25 @@ window.addEventListener("load", () => {
     scene.add(grid2);
 
     let t = 0;
+    // ------------------------
+// BOT PLANE (2.5D Sprite)
+// ------------------------
+
+const loader = new THREE.TextureLoader();
+const botTexture = loader.load("https://raw.githubusercontent.com/es1063122-creator/djweb2/main/dj-bot.png");
+
+const botMat = new THREE.MeshBasicMaterial({
+    map: botTexture,
+    transparent: true,
+    depthWrite: false
+});
+
+const botGeo = new THREE.PlaneGeometry(4.5, 5.5);
+const botPlane = new THREE.Mesh(botGeo, botMat);
+
+botPlane.position.set(0, 3, 12);  // 카메라 앞쪽 적당 위치
+scene.add(botPlane);
+
 
     function animate() {
         requestAnimationFrame(animate);
@@ -1491,7 +1510,20 @@ window.addEventListener("load", () => {
         light2.position.x = Math.cos(t * 0.4) * 24;
         light2.position.z = Math.sin(t * 0.4) * 24;
         light3.intensity = Math.sin(t * 0.35) * 0.5 + 1.6;
+        if (botPlane) {
 
+            // 둥실 애니메이션
+            botPlane.position.y = 6 + Math.sin(t * 1.8) * 1.2;
+
+            // 마우스 따라 이동
+            const targetX = mouse.x * 10;
+            const targetZ = 8 + mouse.y * 6;
+
+            botPlane.position.x += (targetX - botPlane.position.x) * 0.05;
+            botPlane.position.z += (targetZ - botPlane.position.z) * 0.05;
+            botPlane.lookAt(camera.position);
+        }
+          
         renderer.render(scene, camera);
     }
 
