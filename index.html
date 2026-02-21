@@ -25,8 +25,7 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
-   <!-- NAVER MAP API -->
-<script defer src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=msg2o68rca"></script>
+
 
     
     <style>
@@ -598,6 +597,7 @@ nav a:hover::after {
             margin-top: 18px;
         }
 
+
         /* =========================
              BUSINESS MODAL
         ========================== */
@@ -691,8 +691,61 @@ nav a:hover::after {
 /* =======================================
        WORKSPACE 버튼 스타일 (이 부분 추가)
     ======================================== */
+/* =========================
+   FLOATING WINDOW STYLE
+========================== */
 
-    </style>
+.chatbot-panel{
+  position: fixed;
+  top: 120px;
+  left: calc(100% - 540px);
+  width: 420px;
+  height: 600px;
+  background: #ffffff;
+  box-shadow: 0 25px 70px rgba(0,0,0,0.45);
+  z-index: 9999;
+  display: none;
+  flex-direction: column;
+  border-radius: 16px;
+  overflow: hidden;
+  resize: both;
+  min-width: 300px;
+  min-height: 300px;
+}
+
+.chatbot-panel.active{
+  display: flex;
+}
+
+.chatbot-header{
+  height: 54px;
+  background: linear-gradient(135deg,#004080,#2a6cf6);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  font-weight: 700;
+  cursor: move;
+  user-select: none;
+}
+
+.chatbot-frame{
+  flex: 1;
+  width: 100%;
+  border: none;
+}
+
+@media (max-width:768px){
+  .chatbot-panel{
+    top:0 !important;
+    left:0 !important;
+    width:100% !important;
+    height:100% !important;
+    resize:none;
+  }
+}    
+</style>
 </head>
 <body>
 
@@ -970,6 +1023,22 @@ nav a:hover::after {
 </footer>
 
 <!-- =========================
+   SLIDE CHATBOT PANEL
+========================== -->
+<div id="chatbot-panel" class="chatbot-panel" aria-hidden="true">
+  <div class="chatbot-header">
+    <div class="chatbot-title">동진 AI 안전비서</div>
+    <button id="chatbot-close" type="button">×</button>
+  </div>
+
+  <iframe
+    src="https://es1063122-creator.github.io/ai-bot/"
+    class="chatbot-frame"
+    title="동진 AI 챗봇">
+  </iframe>
+</div>
+
+<!-- =========================
     BUSINESS MODAL
 ========================== -->
 <div id="biz-modal" class="modal-overlay">
@@ -1008,7 +1077,60 @@ nav a:hover::after {
     mobileToggle.addEventListener("click", toggleMenu);
     window.closeMenuOnMobile = closeMenuOnMobile;
 </script>
+<script>
+const panel = document.getElementById("chatbot-panel");
+const header = panel.querySelector(".chatbot-header");
+const iframe = panel.querySelector("iframe");
 
+let isDragging = false;
+let offsetX = 0;
+let offsetY = 0;
+
+function openChatbotPanel(){
+  panel.classList.add("active");
+  panel.style.display = "flex";
+}
+
+function closeChatbotPanel(){
+  panel.classList.remove("active");
+  panel.style.display = "none";
+}
+
+window.openChatbotPanel = openChatbotPanel;
+
+document.getElementById("chatbot-close")
+  .addEventListener("click", closeChatbotPanel);
+
+// ===== 드래그 시작 =====
+header.addEventListener("mousedown",(e)=>{
+  if(window.innerWidth < 768) return;
+
+  isDragging = true;
+  offsetX = e.clientX - panel.offsetLeft;
+  offsetY = e.clientY - panel.offsetTop;
+
+  iframe.style.pointerEvents = "none";
+  document.body.style.userSelect = "none";
+});
+
+// ===== 드래그 이동 =====
+document.addEventListener("mousemove",(e)=>{
+  if(!isDragging) return;
+
+  panel.style.left = (e.clientX - offsetX) + "px";
+  panel.style.top  = (e.clientY - offsetY) + "px";
+});
+
+// ===== 드래그 종료 =====
+document.addEventListener("mouseup",()=>{
+  if(!isDragging) return;
+
+  isDragging = false;
+
+  iframe.style.pointerEvents = "auto";
+  document.body.style.userSelect = "";
+});
+</script>
 <!-- =========================
    COMPANY COUNTUP ANIMATION
 ========================== -->
@@ -1414,6 +1536,9 @@ window.addEventListener("load", () => {
     scene.add(grid2);
 
     let t = 0;
+
+let botClicked = false;
+let clickAnimationProgress = 0;
     // ------------------------
 // BOT PLANE (2.5D Sprite)
 // ------------------------
@@ -1429,6 +1554,22 @@ const botMat = new THREE.MeshBasicMaterial({
 
 const botGeo = new THREE.PlaneGeometry(4.5, 5.5);
 const botPlane = new THREE.Mesh(botGeo, botMat);
+const raycaster = new THREE.Raycaster();
+const pointer = new THREE.Vector2();
+
+window.addEventListener("click", (event) => {
+
+    pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
+    pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+    raycaster.setFromCamera(pointer, camera);
+    const intersects = raycaster.intersectObject(botPlane);
+
+    if (intersects.length > 0 && !botClicked) {
+        botClicked = true;
+        clickAnimationProgress = 0;
+    }
+});
 
 botPlane.position.set(0, 3, 12);  // 카메라 앞쪽 적당 위치
 scene.add(botPlane);
@@ -1522,6 +1663,30 @@ scene.add(botPlane);
             botPlane.position.x += (targetX - botPlane.position.x) * 0.05;
             botPlane.position.z += (targetZ - botPlane.position.z) * 0.05;
             botPlane.lookAt(camera.position);
+            // ===============================
+// 🔥 클릭 애니메이션 + 패널 열기
+// ===============================
+if (botClicked) {
+
+    clickAnimationProgress += 0.05;
+
+    const flash = Math.sin(clickAnimationProgress * 20) * 0.5 + 0.5;
+    botPlane.material.opacity = 0.6 + flash * 0.4;
+
+    botPlane.scale.x += 0.02;
+    botPlane.scale.y = botPlane.scale.x;
+
+    if (clickAnimationProgress > 1.2) {
+
+        botClicked = false;
+        botPlane.material.opacity = 1;
+        botPlane.scale.set(1,1,1);
+
+        if (window.openChatbotPanel) {
+            window.openChatbotPanel();
+        }
+    }
+}
         }
           
         renderer.render(scene, camera);
@@ -1546,51 +1711,6 @@ scene.add(botPlane);
         camera.updateProjectionMatrix();
         renderer.setSize(w, h);
     });
-});
-</script>
-window.addEventListener('load', function() {
-  // naver 객체가 로드될 때까지 대기
-  if (typeof naver === 'undefined' || !naver.maps) {
-    console.error('네이버 지도 API가 로드되지 않았습니다.');
-    return;
-  }
-
-  try {
-    // 동진토건 위치 (경기도 하남시 미사강변중앙로 210)
-    const position = new naver.maps.LatLng(37.563664, 127.195577);
-
-    const map = new naver.maps.Map('naverMap', {
-      center: position,
-      zoom: 16,
-      zoomControl: true,
-      zoomControlOptions: {
-        position: naver.maps.Position.TOP_RIGHT
-      }
-    });
-
-
-    const marker = new naver.maps.Marker({
-      position: position,
-      map: map,
-      title: '동진토건(주)'
-    });
-
-    // 정보창 추가 (선택사항)
- const infoWindow = new naver.maps.InfoWindow({
-      content: '<div style="padding:10px;"><strong>동진토건(주)</strong><br>경기도 하남시 미사강변중앙로 210, 1006호</div>'
-    });
-
-    naver.maps.Event.addListener(marker, 'click', function() {
-      if (infoWindow.getMap()) {
-        infoWindow.close();
-      } else {
-        infoWindow.open(map, marker);
-      }
-    });
-
-  } catch (error) {
-    console.error('지도 초기화 오류:', error);
-  }
 });
 </script>
 </body>
