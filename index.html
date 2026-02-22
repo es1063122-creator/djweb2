@@ -744,7 +744,54 @@ nav a:hover::after {
     height:100% !important;
     resize:none;
   }
-}    
+}  
+/* =========================
+   CHATBOT CLOSE BUTTON UPGRADE
+========================== */
+
+.chatbot-close-btn{
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,0.25);
+  position: relative;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.chatbot-close-btn span{
+  position:absolute;
+  width:18px;
+  height:2.5px;
+  background:#fff;
+  border-radius:999px;
+  transition: all 0.3s ease;
+}
+
+.chatbot-close-btn span:first-child{
+  transform: rotate(45deg);
+}
+
+.chatbot-close-btn span:last-child{
+  transform: rotate(-45deg);
+}
+
+.chatbot-close-btn:hover{
+  background: rgba(255,80,80,0.25);
+  border-color: rgba(255,80,80,0.6);
+  box-shadow: 0 0 12px rgba(255,80,80,0.6);
+  transform: rotate(90deg) scale(1.08);
+}
+
+.chatbot-close-btn:active{
+  transform: scale(0.85);
+}
+  
 </style>
 </head>
 <body>
@@ -1028,7 +1075,10 @@ nav a:hover::after {
 <div id="chatbot-panel" class="chatbot-panel" aria-hidden="true">
   <div class="chatbot-header">
     <div class="chatbot-title">동진 AI 안전비서</div>
-    <button id="chatbot-close" type="button">×</button>
+    <button id="chatbot-close" class="chatbot-close-btn" type="button" aria-label="닫기">
+  <span></span>
+  <span></span>
+</button>
   </div>
 
   <iframe
@@ -1539,41 +1589,86 @@ window.addEventListener("load", () => {
 
 let botClicked = false;
 let clickAnimationProgress = 0;
-    // ------------------------
-// BOT PLANE (2.5D Sprite)
-// ------------------------
-
-const loader = new THREE.TextureLoader();
-const botTexture = loader.load("https://raw.githubusercontent.com/es1063122-creator/ai-bot/main/dj-ai-flying.png");
-
-const botMat = new THREE.MeshBasicMaterial({
-    map: botTexture,
-    transparent: true,
-    depthWrite: false
-});
-
-const botGeo = new THREE.PlaneGeometry(4.5, 5.5);
-const botPlane = new THREE.Mesh(botGeo, botMat);
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
 
+// ===== 마우스 위치 저장 =====
+window.addEventListener("mousemove", (event) => {
+    pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
+    pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
+});
+
+// ===== 클릭 감지 =====
 window.addEventListener("click", (event) => {
 
     pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
     pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
     raycaster.setFromCamera(pointer, camera);
-    const intersects = raycaster.intersectObject(botPlane);
+    const intersects = raycaster.intersectObject(botGroup, true);
 
     if (intersects.length > 0 && !botClicked) {
         botClicked = true;
         clickAnimationProgress = 0;
     }
 });
+    // ------------------------
+// BOT PLANE (2.5D Sprite)
+// ------------------------
+// =========================
+// BOT TEXTURE + MATERIAL
+// =========================
+const botTexture = new THREE.TextureLoader().load(
+  "https://raw.githubusercontent.com/es1063122-creator/ai-bot/main/dj-ai-flying.png"
+);
 
-botPlane.position.set(0, 3, 12);  // 카메라 앞쪽 적당 위치
-scene.add(botPlane);
+const botMat = new THREE.MeshBasicMaterial({
+  map: botTexture,
+  transparent: true,
+  opacity: 1
+});
 
+// ------------------------
+// BOT GROUP (캐릭터 + 텍스트)
+// ------------------------
+
+const botGroup = new THREE.Group();
+scene.add(botGroup);
+
+// 캐릭터
+const botGeo = new THREE.PlaneGeometry(4.5, 5.5);
+const botPlane = new THREE.Mesh(botGeo, botMat);
+botGroup.add(botPlane);
+
+// ===== 텍스트 생성 =====
+const textCanvas = document.createElement("canvas");
+const ctx = textCanvas.getContext("2d");
+textCanvas.width = 512;
+textCanvas.height = 256;
+
+ctx.font = "bold 55px Pretendard";
+ctx.textAlign = "center";
+ctx.lineWidth = 12;
+ctx.strokeStyle = "black";
+ctx.fillStyle = "white";
+
+ctx.strokeText("AI 봇 클릭", 256, 140);
+ctx.fillText("AI 봇 클릭", 256, 140);
+
+const textTexture = new THREE.CanvasTexture(textCanvas);
+const textMat = new THREE.MeshBasicMaterial({
+  map: textTexture,
+  transparent: true
+});
+
+const textGeo = new THREE.PlaneGeometry(4.8, 1.8);
+const textPlane = new THREE.Mesh(textGeo, textMat);
+textPlane.position.y = 2.6;
+
+botGroup.add(textPlane);
+
+// 초기 위치
+botGroup.position.set(0, 3, 12);
 
     function animate() {
         requestAnimationFrame(animate);
@@ -1651,18 +1746,30 @@ scene.add(botPlane);
         light2.position.x = Math.cos(t * 0.4) * 24;
         light2.position.z = Math.sin(t * 0.4) * 24;
         light3.intensity = Math.sin(t * 0.35) * 0.5 + 1.6;
-        if (botPlane) {
+        if (botGroup) {
 
             // 둥실 애니메이션
-            botPlane.position.y = 6 + Math.sin(t * 1.8) * 1.2;
+            botGroup.position.y = 6 + Math.sin(t * 1.8) * 1.2;
 
-            // 마우스 따라 이동
             const targetX = mouse.x * 10;
             const targetZ = 8 + mouse.y * 6;
 
-            botPlane.position.x += (targetX - botPlane.position.x) * 0.05;
-            botPlane.position.z += (targetZ - botPlane.position.z) * 0.05;
-            botPlane.lookAt(camera.position);
+            botGroup.position.x += (targetX - botGroup.position.x) * 0.05;
+            botGroup.position.z += (targetZ - botGroup.position.z) * 0.05;
+
+            botGroup.lookAt(camera.position);
+
+// ===== Hover 감지 =====
+raycaster.setFromCamera(pointer, camera);
+const hover = raycaster.intersectObject(botGroup, true);
+
+if (hover.length > 0) {
+    document.body.style.cursor = "pointer";
+    botGroup.scale.lerp(new THREE.Vector3(1.12,1.12,1.12), 0.1);
+} else {
+    document.body.style.cursor = "default";
+    botGroup.scale.lerp(new THREE.Vector3(1,1,1), 0.1);
+}
             // ===============================
 // 🔥 클릭 애니메이션 + 패널 열기
 // ===============================
@@ -1714,4 +1821,4 @@ if (botClicked) {
 });
 </script>
 </body>
-</html>
+</html> 
