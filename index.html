@@ -2,11 +2,11 @@
 <html lang="ko">
 <head>
 <!-- 기본 메타(네이버 검색 대비) -->
-<meta name="description" content="동진토건(주)은 연약지반 안정화공법, 흙막이, 토공사, 기반시설공사 등 전문 건설 솔루션을 제공하는 종합 건설기업입니다.">
+<meta name="description" content="동진토건(주)은 흙막이, 토공사, 기반시설공사, 연약지반 안정화공법 등 전문 건설 솔루션을 제공하는 종합 건설기업입니다.">
 
 <!-- Open Graph (SNS, 네이버 모두 적용) -->
-<meta property="og:title" content="동진토건(주) | 연약지반 전문 건설기업">
-<meta property="og:description" content="동진토건(주)은 연약지반 안정화, 흙막이, 토공사, 기반시설공사 등 다양한 건설 분야에서 최고의 기술력과 안전성을 바탕으로 시공합니다.">
+<meta property="og:title" content="동진토건(주) | 토공사 전문 건설기업">
+<meta property="og:description" content="동진토건(주)은 흙막이, 토공사, 기반시설공사, 연약지반 안정화공법 등 다양한 건설 분야에서 최고의 기술력과 안전성을 바탕으로 시공합니다.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://djenc.co.kr">
 <meta property="og:image" content="https://djenc.co.kr/og-image.png">
@@ -917,30 +917,36 @@ nav a:hover::after {
     <p class="section-sub">전문 건설 면허 기반의 종합 시공 솔루션</p>
 
     <div class="biz-grid">
-        <div class="biz-card" data-biz="soft">
-            <span class="biz-icon">🌏</span>
-            <h3>연약지반 안정화공법</h3>
-            <p>Soil-Firm 친환경 고화재를 활용한 연약지반 지지력 향상 공법</p>
-        </div>
 
-        <div class="biz-card" data-biz="ground">
-            <span class="biz-icon">🚜</span>
-            <h3>지반조성·포장 및 기초공사</h3>
-            <p>대규모 택지조성부터 산업단지 기반시설까지 기반 토공 전문</p>
-        </div>
-
-        <div class="biz-card" data-biz="rc">
-            <span class="biz-icon">🏗️</span>
-            <h3>철근·콘크리트공사</h3>
-            <p>주택·상업·산업 구조물 골조 및 RC 전문 시공</p>
-        </div>
-
-        <div class="biz-card" data-biz="subcivil">
-            <span class="biz-icon">🛣️</span>
-            <h3>부대토목공사</h3>
-            <p>단지 내 도로·배수·조경·옹벽 등 외부 기반시설 시공</p>
-        </div>
+    <!-- 지반조성 -->
+    <div class="biz-card" data-biz="ground">
+        <span class="biz-icon">🚜</span>
+        <h3>지반조성·포장 및 기초공사</h3>
+        <p>대규모 택지조성부터 산업단지 기반시설까지 기반 토공 전문</p>
     </div>
+
+    <!-- 철근콘크리트 -->
+    <div class="biz-card" data-biz="rc">
+        <span class="biz-icon">🏗️</span>
+        <h3>철근·콘크리트공사</h3>
+        <p>주택·상업·산업 구조물 골조 및 RC 전문 시공</p>
+    </div>
+
+    <!-- 부대토목 -->
+    <div class="biz-card" data-biz="subcivil">
+        <span class="biz-icon">🛣️</span>
+        <h3>부대토목공사</h3>
+        <p>단지 내 도로·배수·조경·옹벽 등 외부 기반시설 시공</p>
+    </div>
+
+    <!-- ⭐ 연약지반 (맨 뒤로 이동) -->
+    <div class="biz-card" data-biz="soft">
+        <span class="biz-icon">🌏</span>
+        <h3>연약지반 안정화공법</h3>
+        <p>Soil-Firm 친환경 고화재를 활용한 연약지반 지지력 향상 공법</p>
+    </div>
+
+</div>
 </section>
 
 <!-- =========================
@@ -1220,26 +1226,7 @@ document.addEventListener("mouseup",()=>{
 ========================== -->
 <script defer>
     const bizContents = {
-        soft: {
-            title: "연약지반 안정화공법 (Soil-Firm-G,D)",
-            body: `
-                <p class="modal-subtitle">
-                    친환경 고화재 Soil-Firm-G,D를 활용하여 연약지반의 지지력과 안정성을 높이는 동진토건의 핵심 전문 공법입니다.
-                </p>
-                <h4>특징</h4>
-                <ul>
-                    <li>현장 토사를 직접 교반·혼합하여 안정화, 토사 반출 최소화</li>
-                    <li>침하 억제 및 장기 지지력 향상 효과</li>
-                    <li>유기질토·고함수비 토사 등 다양한 연약지반에 적용 가능</li>
-                </ul>
-                <h4>적용 분야</h4>
-                <ul>
-                    <li>주동부 치환 및 구조물 기초부 개량</li>
-                    <li>도로 노상·노체 및 성토부 안정화</li>
-                    <li>상·하수도 및 각종 매설물 기초 보강</li>
-                </ul>
-            `
-        },
+        
         ground: {
             title: "지반조성·포장 및 기초공사",
             body: `
@@ -1301,6 +1288,27 @@ document.addEventListener("mouseup",()=>{
             `
         }
     };
+
+     soft: {
+            title: "연약지반 안정화공법 (Soil-Firm-G,D)",
+            body: `
+                <p class="modal-subtitle">
+                    친환경 고화재 Soil-Firm-G,D를 활용하여 연약지반의 지지력과 안정성을 높이는 동진토건의 핵심 전문 공법입니다.
+                </p>
+                <h4>특징</h4>
+                <ul>
+                    <li>현장 토사를 직접 교반·혼합하여 안정화, 토사 반출 최소화</li>
+                    <li>침하 억제 및 장기 지지력 향상 효과</li>
+                    <li>유기질토·고함수비 토사 등 다양한 연약지반에 적용 가능</li>
+                </ul>
+                <h4>적용 분야</h4>
+                <ul>
+                    <li>주동부 치환 및 구조물 기초부 개량</li>
+                    <li>도로 노상·노체 및 성토부 안정화</li>
+                    <li>상·하수도 및 각종 매설물 기초 보강</li>
+                </ul>
+            `
+        },
 
     (function initBizModal() {
         const modal = document.getElementById("biz-modal");
