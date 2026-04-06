@@ -515,6 +515,104 @@ nav a:hover::after {
             }
         }
 
+/* =========================
+   PARTNER SHOWCASE SECTION
+========================= */
+.partner-showcase-section {
+    background: #111827;
+    color: #ffffff;
+    padding: 0 6% 90px;
+}
+
+.partner-showcase-wrap {
+    max-width: 1280px;
+    margin: 0 auto;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 24px;
+    padding: 34px 28px;
+    box-shadow: 0 16px 36px rgba(0,0,0,0.22);
+}
+
+.partner-showcase-header {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.partner-showcase-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 8px;
+}
+
+.partner-showcase-sub {
+    font-size: 0.98rem;
+    color: #cbd5e1;
+}
+
+.partner-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 22px 22px;
+}
+
+.partner-card {
+    background: #ffffff;
+    border-radius: 18px;
+    min-height: 118px;
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.16);
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.partner-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 30px rgba(0,0,0,0.20);
+}
+
+.partner-card img {
+    max-width: 160px;
+    max-height: 46px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+}
+
+@media (max-width: 1024px) {
+    .partner-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 640px) {
+    .partner-showcase-section {
+        padding: 0 8% 70px;
+    }
+
+    .partner-showcase-wrap {
+        padding: 22px 16px;
+    }
+
+    .partner-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .partner-card {
+        min-height: 96px;
+    }
+
+    .partner-card img {
+        max-width: 140px;
+        max-height: 40px;
+    }
+}
+
         /* =========================
              LOCATION
         ========================== */
@@ -537,33 +635,160 @@ nav a:hover::after {
             }
         }
 
-        /* =========================
-             PARTNERS
-        ========================== */
-        .partners {
-            background: #ffffff;
-            padding: 50px 0;
-            overflow: hidden;
-        }
+/* =========================
+   PROJECT PARTNER BOX
+========================= */
+.partner-showcase {
+    margin-top: 42px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 22px;
+    padding: 32px 28px;
+    box-shadow: 0 14px 34px rgba(0,0,0,0.22);
+}
 
-        .partner-track {
-            display: inline-block;
-            white-space: nowrap;
-            animation: partner-slide 22s linear infinite;
-        }
+.partner-showcase-header {
+    text-align: center;
+    margin-bottom: 26px;
+}
 
-        .partner-logo {
-            display: inline-block;
-            margin: 0 40px;
-            font-weight: 800;
-            font-size: 1.2rem;
-            color: #9ca3af;
-        }
+.partner-showcase-title {
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 8px;
+}
 
-        @keyframes partner-slide {
-            from { transform: translateX(0); }
-            to { transform: translateX(-50%); }
-        }
+.partner-showcase-sub {
+    font-size: 0.96rem;
+    color: #cbd5e1;
+}
+
+.partner-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 22px 22px;
+}
+
+.partner-card {
+    background: #ffffff;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 18px;
+    min-height: 116px;
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.16);
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.partner-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 32px rgba(0,0,0,0.22);
+}
+
+.partner-card img {
+    max-width: 160px;
+    max-height: 46px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+}
+
+@media (max-width: 1024px) {
+    .partner-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 640px) {
+    .partner-showcase {
+        padding: 24px 16px;
+    }
+
+    .partner-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .partner-card {
+        min-height: 96px;
+    }
+
+    .partner-card img {
+        max-width: 140px;
+        max-height: 40px;
+    }
+}
+
+/* =========================
+     PARTNERS
+========================= */
+.partners {
+    background: #ffffff;
+    padding: 34px 0 42px;
+    overflow: hidden;
+    border-top: 1px solid #e5e7eb;
+}
+
+.partner-track {
+    display: flex;
+    align-items: center;
+    width: max-content;
+    white-space: nowrap;
+    animation: partner-slide 34s linear infinite;
+}
+
+.partner-item {
+    flex: 0 0 auto;
+    width: 190px;
+    height: 82px;
+    margin: 0 14px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.06);
+}
+
+.partner-item img {
+    max-width: 140px;
+    max-height: 38px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+}
+
+.partners:hover .partner-track {
+    animation-play-state: paused;
+}
+
+@keyframes partner-slide {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+
+@media (max-width: 768px) {
+    .partner-item {
+        width: 160px;
+        height: 72px;
+        margin: 0 10px;
+    }
+
+    .partner-item img {
+        max-width: 120px;
+        max-height: 34px;
+    }
+
+    .partner-track {
+        animation-duration: 28s;
+    }
+}
 
         /* =========================
              FOOTER
@@ -1003,6 +1228,62 @@ nav a:hover::after {
 </section>
 
 <!-- =========================
+   PARTNER SHOWCASE SECTION
+========================== -->
+<section class="partner-showcase-section" id="partner-showcase">
+    <div class="partner-showcase-wrap">
+        <div class="partner-showcase-header">
+            <h2 class="partner-showcase-title">협력업체 등록현황</h2>
+            <p class="partner-showcase-sub">메이저 건설사 및 주요 협력사 등록 현황</p>
+        </div>
+
+        <div class="partner-grid">
+            <div class="partner-card">
+                <img loading="lazy"
+                     src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/png/HL%20D%26I%20Halla_CI_1200x400.png"
+                     alt="HL D&I 한라">
+            </div>
+            <div class="partner-card">
+                <img loading="lazy"
+                     src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/png/Hanwha%20E_C_Div_RGB_KH_1200x400.png"
+                     alt="한화 건설부문">
+            </div>
+            <div class="partner-card">
+                <img loading="lazy"
+                     src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/png/IPARKdvp_ko_2_1200x400.png"
+                     alt="IPARK">
+            </div>
+            <div class="partner-card">
+                <img loading="lazy"
+                     src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/png/KCC_CI%28png%29_1200x400.png"
+                     alt="KCC">
+            </div>
+
+            <div class="partner-card">
+                <img loading="lazy"
+                     src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/png/Kolonglobal_Ci_KOR_1200x400.png"
+                     alt="코오롱글로벌">
+            </div>
+            <div class="partner-card">
+                <img loading="lazy"
+                     src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/png/TaeYoung_1200x400.png"
+                     alt="태영">
+            </div>
+            <div class="partner-card">
+                <img loading="lazy"
+                     src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/png/%EB%8C%80%EB%B3%B4%EA%B1%B4%EC%84%A4_1200x400.png"
+                     alt="대보건설">
+            </div>
+            <div class="partner-card">
+                <img loading="lazy"
+                     src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/png/%EB%8F%99%EB%B6%80%EA%B1%B4%EC%84%A4_1200x400.png"
+                     alt="동부건설">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- =========================
         LOCATION
 ========================== -->
 <section class="section" id="location">
@@ -1036,19 +1317,55 @@ nav a:hover::after {
 ========================== -->
 <section class="partners" id="partners">
     <div class="partner-track">
-        <span class="partner-logo">HDC 현대산업개발</span>
-        <span class="partner-logo">HL D&I 한라</span>
-        <span class="partner-logo">POSCO E&C</span>
-        <span class="partner-logo">LH 한국토지주택공사</span>
-        <span class="partner-logo">금호건설</span>
-        <span class="partner-logo">대한전문건설협회</span>
-        <!-- 반복 -->
-        <span class="partner-logo">HDC 현대산업개발</span>
-        <span class="partner-logo">HL D&I 한라</span>
-        <span class="partner-logo">POSCO E&C</span>
-        <span class="partner-logo">LH 한국토지주택공사</span>
-        <span class="partner-logo">금호건설</span>
-        <span class="partner-logo">대한전문건설협회</span>
+        <div class="partner-item">
+            <img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/png/HL%20D%26I%20Halla_CI_1200x400.png" alt="HL D&I 한라">
+        </div>
+        <div class="partner-item">
+            <img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/png/Hanwha%20E_C_Div_RGB_KH_1200x400.png" alt="한화 건설부문">
+        </div>
+        <div class="partner-item">
+            <img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/png/IPARKdvp_ko_2_1200x400.png" alt="IPARK">
+        </div>
+        <div class="partner-item">
+            <img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/png/KCC_CI%28png%29_1200x400.png" alt="KCC">
+        </div>
+        <div class="partner-item">
+            <img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/png/Kolonglobal_Ci_KOR_1200x400.png" alt="코오롱글로벌">
+        </div>
+        <div class="partner-item">
+            <img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/png/TaeYoung_1200x400.png" alt="태영">
+        </div>
+        <div class="partner-item">
+            <img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/png/%EB%8C%80%EB%B3%B4%EA%B1%B4%EC%84%A4_1200x400.png" alt="대보건설">
+        </div>
+        <div class="partner-item">
+            <img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/png/%EB%8F%99%EB%B6%80%EA%B1%B4%EC%84%A4_1200x400.png" alt="동부건설">
+        </div>
+
+        <div class="partner-item">
+            <img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/png/HL%20D%26I%20Halla_CI_1200x400.png" alt="HL D&I 한라">
+        </div>
+        <div class="partner-item">
+            <img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/png/Hanwha%20E_C_Div_RGB_KH_1200x400.png" alt="한화 건설부문">
+        </div>
+        <div class="partner-item">
+            <img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/png/IPARKdvp_ko_2_1200x400.png" alt="IPARK">
+        </div>
+        <div class="partner-item">
+            <img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/png/KCC_CI%28png%29_1200x400.png" alt="KCC">
+        </div>
+        <div class="partner-item">
+            <img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/png/Kolonglobal_Ci_KOR_1200x400.png" alt="코오롱글로벌">
+        </div>
+        <div class="partner-item">
+            <img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/png/TaeYoung_1200x400.png" alt="태영">
+        </div>
+        <div class="partner-item">
+            <img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/png/%EB%8C%80%EB%B3%B4%EA%B1%B4%EC%84%A4_1200x400.png" alt="대보건설">
+        </div>
+        <div class="partner-item">
+            <img src="https://raw.githubusercontent.com/es1063122-creator/djweb2/main/png/%EB%8F%99%EB%B6%80%EA%B1%B4%EC%84%A4_1200x400.png" alt="동부건설">
+        </div>
     </div>
 </section>
 
